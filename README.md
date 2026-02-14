@@ -24,3 +24,29 @@ npm install
 npm i express
 npm run dev
 ```
+
+## Docker Setup (App + MySQL)
+
+Start the containers:
+
+```bash
+docker compose up -d
+```
+
+Load the schema into the database:
+
+```bash
+docker exec -i ecommerce-mysql mysql -uroot -proot_password ecommerce < ./src/scripts/schema.sql
+```
+
+Seed the database with sample data:
+
+```bash
+docker exec -i ecommerce-mysql mysql -uroot -proot_password ecommerce < ./src/scripts/seed.sql
+```
+
+Verify the database has products:
+
+```bash
+docker exec -it ecommerce-mysql mysql -uroot -proot_password -e "SELECT COUNT(*) AS product_count FROM products;" ecommerce
+```
