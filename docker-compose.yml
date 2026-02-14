@@ -19,6 +19,8 @@ services:
     networks:
       - ecommerce-network
     restart: unless-stopped
+    volumes:
+      - .:/app
 
   mysql:
     image: mysql:8.0
