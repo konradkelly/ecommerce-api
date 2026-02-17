@@ -10,8 +10,8 @@ services:
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_USER=root
-      - DB_PASSWORD=root_password
-      - DB_NAME=ecommerce
+      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - DB_NAME=${MYSQL_DATABASE}
     depends_on:
       - mysql
     networks:
@@ -26,10 +26,24 @@ services:
     ports:
       - "3310:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=root_password
-      - MYSQL_DATABASE=ecommerce
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - ecommerce-network
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: ecommerce-phpmyadmin
+    ports:
+      - "3312:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+    depends_on:
+      - mysql
     networks:
       - ecommerce-network
     restart: unless-stopped
