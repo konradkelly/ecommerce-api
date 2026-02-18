@@ -56,3 +56,60 @@
 .header.header--shrink .nav-menu {
     gap: 1.25rem;
 }
+
+/* Scrolling Container */
+.scroll-container {
+    background-color: black;
+    position: relative;
+    width: 100%;
+    max-width: auto;
+    margin: 3rem auto;
+    overflow: hidden;
+}
+
+/* Scrolling Track */
+.scroll-list {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    animation: scroll 20s linear infinite;
+}
+
+/* Individual Image Wrapper */
+.tag img {
+    height: 225px;
+    width: auto;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Fade Effects */
+.fade-left,
+.fade-right {
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.fade-left {
+    left: 0;
+    background: linear-gradient(to right, black, transparent);
+}
+
+.fade-right {
+    right: 0;
+    background: linear-gradient(to left, black, transparent);
+}
+
+/* Animation */
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
