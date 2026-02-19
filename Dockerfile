@@ -1,7 +1,6 @@
 # Use official Node.js runtime as base image
 FROM node:18-bookworm
-RUN useradd -ms /bin/sh -u 8001 app
-USER app
+
 # Set working directory
 WORKDIR /app
 
