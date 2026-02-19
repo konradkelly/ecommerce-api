@@ -1,6 +1,6 @@
 //place controller functions here...
 import { getAllProducts } from '../services/default.service.js';
-import imageService from '../services/imageService.js';
+import imageService from '../model/services/imageService.js';
 
 export const login = (req, res) => {
     res.status(200).json("hi from login");
@@ -28,12 +28,11 @@ export const landingPage = async (req, res) => {
     try {
         const images = await imageService.getRandomImages();
         console.log(images);
-        // res.render("default", {
-        //     title: "MVC Starter App",
-        //     subtitle: "Express + EJS + Static Assets",
-        //     images
-        // });
-        res.status(200).json({ products, images });
+        res.render("default", {
+            title: "MVC Starter App",
+            subtitle: "Express + EJS + Static Assets",
+            images
+        });
     } catch (error) {
         console.error('Error fetching images:', error.message);
         res.status(500).json({ error: 'Failed to load page' });
