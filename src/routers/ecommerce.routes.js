@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as ecomCtl from '../controllers/ecommerce.controller.js';
-
+import imageService from '../services/imageService.js';
 
 const router = Router();
 
