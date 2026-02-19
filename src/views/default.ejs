@@ -14,17 +14,15 @@
     
     <div class="scroll-container">
     <div class="scroll-list">
-        <div class="tag"><img src="https://hips.hearstapps.com/hmg-prod/images/camping-ideas-1561136670.jpg?crop=1xw:0.84375xh;0,0.186xh" alt=""></div>
-        <div class="tag"><img src="/images/default.webp" alt=""></div>
-        <div class="tag"><img src="/images/default.webp" alt=""></div>
-        <div class="tag"><img src="/images/default.webp" alt=""></div>
-
+    <% images.forEach(image => { %>
+        <div class="tag"><img src="<%= image.url %>" alt="<%= image.description %>"></div>
+    <% }) %>
         <!-- Duplicate for seamless loop -->
-        <div class="tag"><img src="https://hips.hearstapps.com/hmg-prod/images/camping-ideas-1561136670.jpg?crop=1xw:0.84375xh;0,0.186xh" alt=""></div>
-        <div class="tag"><img src="/images/default.webp" alt=""></div>
-        <div class="tag"><img src="/images/default.webp" alt=""></div>
-        <div class="tag"><img src="/images/default.webp" alt=""></div>
-        </div>
+    <% images.forEach(image => { %>
+        <div class="tag"><img src="<%= image.url %>" alt="<%= image.description %>"></div>
+    <% }) %>
+    <pre><%= JSON.stringify(images, null, 2) %></pre>
+    </div>
 
         <div class="scroll-text">
             Cascadia Gear Co-op
