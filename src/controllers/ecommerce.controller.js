@@ -20,7 +20,7 @@ export const getData = async (req, res) => {
         
     } catch (error) {
         console.error('Database error:', error.message);
-        res.status(500).json({ error: 'Database query failed' });
+        res.status(500).json({ error: 'getData: Database query failed' });
     }
 };
 

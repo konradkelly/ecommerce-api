@@ -1,3 +1,15 @@
+// import app from './app.js';
+// import dotenv from 'dotenv';
+
+// //read environment variables
+// dotenv.config();
+
+// const { PORT } = process.env;
+
+// app.listen(PORT, () => {
+//     console.log(`Server started on http://localhost:${PORT}`);
+// });
+
 import app from './app.js';
 import dotenv from 'dotenv';
 import mysql from 'mysql2/promise';
@@ -14,4 +26,4 @@ const { PORT, DB_DATABASE, DB_HOST, DB_PORT,
 
 app.listen(PORT, () => {
     console.log(`Server started on http://localhost:${PORT}`);
-})
+});
