@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as ecomCtl from '../controllers/ecommerce.controller.js';
 
+
 const router = Router();
 
 // http://localhost:8001/

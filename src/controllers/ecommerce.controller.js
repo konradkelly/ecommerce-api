@@ -1,6 +1,6 @@
 //place controller functions here...
 import { getAllProducts } from '../services/default.service.js';
-import { getRandomImages } from '../services/imageService.js';
+import imageService from '../model/services/imageService.js';
 
 export const login = (req, res) => {
     res.status(200).json("hi from login");
@@ -15,42 +15,26 @@ export const products = (req, res) => {
 export const getData = async (req, res) => {
     try {
         const products = await getAllProducts();
-        res.status(200).json(products);
+        const images = await imageService.getRandomImages();
+        res.status(200).json({ products, images });
+        
     } catch (error) {
         console.error('Database error:', error.message);
         res.status(500).json({ error: 'getData: Database query failed' });
     }
 };
 
-// export const landingPage = (req, res) => {
-//     res.render("default", {
-//         title: "MVC Starter App",
-//         subtitle: "Express + EJS + Static Assets"
-//     });
-// }
-
 export const landingPage = async (req, res) => {
     try {
-        const images = await getRandomImages();
-        // res.render("default", {
-        //     title: "MVC Starter App",
-        //     subtitle: "Express + EJS + Static Assets",
-        //     images
-        // });
-        res.status(200).json(images);
+        const images = await imageService.getRandomImages();
+        console.log(images);
+        res.render("default", {
+            title: "MVC Starter App",
+            subtitle: "Express + EJS + Static Assets",
+            images
+        });
     } catch (error) {
-        console.error('Database error:', error.message);
-        res.status(500).json({ error: 'RandomImages: Database query failed' });
+        console.error('Error fetching images:', error.message);
+        res.status(500).json({ error: 'Failed to load page' });
     }
 }
-
-// export const RandomImages = async (req, res) => {
-//     try {
-//         const images = await getRandomImages();
-//         res.status(200).json(images)
-//     } catch (error) {
-//         console.error('Database error:', error.message);
-//         res.status(500).json({ error: 'RandomImages: Database query failed' });
-//     }
-
-// }
