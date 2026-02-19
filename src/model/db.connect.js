@@ -15,6 +15,5 @@ export const getDbPool = () => {
 			queueLimit: 0
 		});
 	}
-
 	return pool;
 };
