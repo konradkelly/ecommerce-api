@@ -30,7 +30,7 @@ export const landingPage = async (req, res) => {
             imageService.getRandomImages(),
             getFeaturedProduct()
         ]);
-        console.log(images);
+        // console.log(images);
         res.render("default", {
             title: "MVC Starter App",
             subtitle: "Express + EJS + Static Assets",

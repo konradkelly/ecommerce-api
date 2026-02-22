@@ -107,6 +107,105 @@ INSERT INTO products (name, description, price, category_id, image_url, featured
     (SELECT id FROM categories WHERE name = 'Camp Essentials'),
     'https://www.rei.com/media/1892dfe9-e503-490f-975a-cf186af22f59.jpg?size=1500',
     TRUE
+),
+
+(
+    'TrailPro Camp Chair',
+    'Foldable lightweight camp chair with breathable mesh and aluminum frame.',
+    74.95,
+    (SELECT id FROM categories WHERE name = 'Camp Essentials'),
+    'https://www.rei.com/media/a117111a-158a-4813-9b3e-26d84febc1a1.jpg?size=1500',
+    FALSE
+),
+
+
+(
+    'Osprey 65L Expedition Pack',
+    'High‑capacity 65L backpack with adjustable suspension and hydration compatibility.',
+    249.00,
+    (SELECT id FROM categories WHERE name = 'Backpacks'),
+    'https://www.rei.com/media/a744c69b-981a-4ffd-b442-4a562dccf7c0.jpg?size=1500',
+    TRUE
+),
+
+
+(
+    'Alpine Summit 3P Tent',
+    'Three‑person, four‑season tent built for harsh alpine conditions.',
+    399.99,
+    (SELECT id FROM categories WHERE name = 'Tents'),
+    'https://www.rei.com/media/2c349117-c9ca-4cad-8fd6-2a37bd34dc6c.jpg?size=1500',
+    FALSE
+),
+
+
+(
+    'ThermoLite 20 Sleeping Bag',
+    'Synthetic 20°F sleeping bag designed for wet‑weather performance.',
+    119.95,
+    (SELECT id FROM categories WHERE name = 'Sleep Systems'),
+    'https://www.rei.com/media/e869f452-fda8-41a2-9451-9f876f1c379c.jpg?size=1500',
+    FALSE
+),
+
+
+(
+    'Titanium Solo Stove',
+    'Ultralight titanium stove ideal for minimalist backpacking.',
+    59.00,
+    (SELECT id FROM categories WHERE name = 'Camp Essentials'),
+    'https://www.rei.com/media/7cdc2c51-a9ee-4990-b760-3f9776580e97?size=2000',
+    TRUE
+),
+
+
+(
+    'HydraFlex 2L Reservoir',
+    'Durable hydration reservoir with quick‑connect hose and bite valve.',
+    34.95,
+    (SELECT id FROM categories WHERE name = 'Accessories & Tools'),
+    'https://www.rei.com/media/abae1960-c11f-4cc3-aa33-5bae12a70beb?size=2000',
+    FALSE
+),
+
+
+(
+    'Summit Carbon Trek Poles',
+    'Adjustable carbon trekking poles with ergonomic foam grips.',
+    139.00,
+    (SELECT id FROM categories WHERE name = 'Accessories & Tools'),
+    'https://www.rei.com/media/932b554d-eb2d-46f5-8b5e-8885298be664.jpg?size=1500',
+    TRUE
+),
+
+
+(
+    'EverGlow Lantern',
+    'Rechargeable LED lantern with dimming modes and USB output.',
+    49.50,
+    (SELECT id FROM categories WHERE name = 'Camp Essentials'),
+    'https://www.rei.com/media/41e763ad-d123-44f8-981a-be151238d259.jpg?size=1500',
+    FALSE
+),
+
+
+(
+    'TrailShield Rain Jacket',
+    'Waterproof breathable rain jacket with pit zips and adjustable hood.',
+    89.00,
+    (SELECT id FROM categories WHERE name = 'Accessories & Tools'),
+    'https://www.rei.com/media/c3d53f0f-60b6-4484-9bc7-c0d934d3c42d.jpg?size=1500',
+    FALSE
+),
+
+
+(
+    'Canyon 30L Daypack',
+    'Versatile 30L daypack with hydration sleeve and stretch mesh pockets.',
+    79.95,
+    (SELECT id FROM categories WHERE name = 'Backpacks'),
+    'https://www.rei.com/media/77f90e4f-6163-4e9b-8b40-d92643ab4cc5.jpg?size=1500',
+    TRUE
 );
 
 
