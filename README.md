@@ -90,3 +90,80 @@ docker exec -it ecommerce-mysql mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "SELECT
 
 All configuration values (ports, database credentials, etc.) are managed via the `.env` file.  
 Update `.env` as needed and restart Docker containers for changes to take effect.
+
+# Deploying AWS RDS with Terraform
+
+This project demonstrates cloud engineering skills by provisioning an AWS RDS MySQL instance using Terraform.
+
+### Steps to Deploy RDS
+
+1. **Configure Terraform variables:**
+  - Edit `variables.tf` and `terraform.tfvars` to set your database name, username, and password.
+  - Sensitive values (like passwords) should be set as environment variables:
+    - PowerShell: `$env:TF_VAR_db_password="your_password"`
+    - Bash: `export TF_VAR_db_password="your_password"`
+
+2. **Initialize Terraform:**
+  ```
+  terraform init
+  ```
+
+3. **Plan the deployment:**
+  ```
+  terraform plan
+  ```
+
+4. **Apply the deployment:**
+  ```
+  terraform apply
+  ```
+  - Confirm with `yes` when prompted.
+
+5. **Find your RDS endpoint:**
+  - After deployment, log in to AWS Console > RDS > Databases to find your instance endpoint.
+
+### Best Practices
+- Use environment variables for secrets.
+- Restrict RDS access with security groups.
+- Make RDS publicly accessible only for development/testing.
+- Download the SSL certificate for secure connections: [global-bundle.pem](https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem)
+
+---
+
+## AWS RDS Integration (MySQL)
+
+### Connecting to AWS RDS MySQL
+
+After deploying your RDS instance with Terraform, you can connect using the MySQL client:
+
+```
+mysql -h <RDS_ENDPOINT> -P 3306 -u <DB_USERNAME> -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" <DB_NAME>
+```
+
+Replace `<RDS_ENDPOINT>`, `<DB_USERNAME>`, and `<DB_NAME>` with your values. You will be prompted for your password.
+
+**Example:**
+```
+mysql -h ecommercedb.cju0u6waad4i.us-east-2.rds.amazonaws.com -P 3306 -u cascadia_user -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" ecommercedb
+```
+
+
+### Importing schema and seed data
+
+From Command Prompt (replace `<PATH_TO_SCHEMA>` and `<PATH_TO_SEED>` with your actual file paths):
+```
+mysql -h ecommercedb.cju0u6waad4i.us-east-2.rds.amazonaws.com -P 3306 -u cascadia_user -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" ecommercedb < <PATH_TO_SCHEMA>
+mysql -h ecommercedb.cju0u6waad4i.us-east-2.rds.amazonaws.com -P 3306 -u cascadia_user -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" ecommercedb < <PATH_TO_SEED>
+```
+
+Or, inside the MySQL prompt (use relative paths or upload files to your server):
+```
+source /path/to/schema.sql;
+source /path/to/seed.sql;
+```
+
+**Note:** Download the RDS SSL certificate from https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem and place it at C:\certs\global-bundle.pem.
+
+---
+
+## License For Educational Use Only
