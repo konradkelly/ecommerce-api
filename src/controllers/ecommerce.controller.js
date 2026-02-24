@@ -32,7 +32,7 @@ export const landingPage = async (req, res) => {
             getFeaturedProduct()
         ]);
         // console.log(images);
-        res.render("default", {
+        res.render("landing", {
             title: "MVC Starter App",
             subtitle: "Express + EJS + Static Assets",
             images,
@@ -41,7 +41,7 @@ export const landingPage = async (req, res) => {
         // res.status(200).json({ images });
     } catch (error) {
         console.error('Error fetching images:', error.message);
-        res.render("default", {
+        res.render("landing", {
             title: "MVC Starter App",
             subtitle: "Express + EJS + Static Assets",
             images: [],
