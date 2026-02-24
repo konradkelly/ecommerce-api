@@ -8,8 +8,9 @@ export const login = (req, res) => {
 export const register = (req, res) => {
     res.status(200).json("hi from register");
 }
-export const products = (req, res) => {
-    res.status(200).json("hi from products from jonus");
+export const products = async (req, res) => {
+    const products = await getAllProducts();
+    res.status(200).json(products);
 }
 
 export const getData = async (req, res) => {
