@@ -24,4 +24,5 @@ app.use(express.urlencoded({ extended: true }));
 //routers
 app.use("/", ecommerceRouter);
 
+
 export default app;
