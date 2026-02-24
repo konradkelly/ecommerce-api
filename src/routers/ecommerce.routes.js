@@ -14,5 +14,6 @@ router.get('/login', ecomCtl.login);
 router.get('/register', ecomCtl.register);
 // http://localhost:8001/products
 router.get('/products', ecomCtl.products);
+// router.get('/products/:id', ecomCtl.products);
 
 export default router;
