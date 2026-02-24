@@ -8,8 +8,31 @@ export const login = (req, res) => {
 export const register = (req, res) => {
     res.status(200).json("hi from register");
 }
-export const products = (req, res) => {
-    res.status(200).json("hi from products from jonus");
+export const products = async (req, res) => {
+    // res.status(200).json("hi from products from jonus");
+    try {
+        const [images, featuredProduct] = await Promise.all([
+            imageService.getRandomImages(),
+            getFeaturedProduct()
+        ]);
+        // console.log(images);
+        res.render("products", {
+            title: "MVC Starter App",
+            subtitle: "Express + EJS + Static Assets",
+            images,
+            featuredProduct
+        });
+        // res.status(200).json({ images });
+    } catch (error) {
+        console.error('Error fetching images:', error.message);
+        res.render("products", {
+            title: "MVC Starter App",
+            subtitle: "Express + EJS + Static Assets",
+            images: [],
+            featuredProduct: null
+        });
+    }
+    
 }
 
 export const getData = async (req, res) => {
@@ -31,7 +54,7 @@ export const landingPage = async (req, res) => {
             getFeaturedProduct()
         ]);
         // console.log(images);
-        res.render("default", {
+        res.render("landing", {
             title: "MVC Starter App",
             subtitle: "Express + EJS + Static Assets",
             images,
@@ -40,7 +63,7 @@ export const landingPage = async (req, res) => {
         // res.status(200).json({ images });
     } catch (error) {
         console.error('Error fetching images:', error.message);
-        res.render("default", {
+        res.render("landing", {
             title: "MVC Starter App",
             subtitle: "Express + EJS + Static Assets",
             images: [],
