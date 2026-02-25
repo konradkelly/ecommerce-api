@@ -1,6 +1,16 @@
-import { findAllProducts, findRandomProducts, findFeaturedProduct } from '../model/default.repo.js';
+import {
+	findAllProducts,
+	findFilteredProducts,
+	findRandomProducts,
+	findFeaturedProduct,
+	findAllCategories
+} from '../model/default.repo.js';
 
 export const getAllProducts = () => findAllProducts();
+
+export const getFilteredProducts = (filters) => findFilteredProducts(filters);
+
+export const getAllCategories = () => findAllCategories();
 
 export const getRandomProducts = (limit = 4) => findRandomProducts(limit);
 
