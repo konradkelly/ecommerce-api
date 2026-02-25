@@ -11,18 +11,18 @@ export const register = (req, res) => {
 export const products = async (req, res) => {
     // res.status(200).json("hi from products from jonus");
     try {
-        const [images, featuredProduct] = await Promise.all([
+        const [images, allProduct] = await Promise.all([
             imageService.getRandomImages(),
-            getFeaturedProduct()
+            getAllProducts()
         ]);
         // console.log(images);
         res.render("products", {
             title: "MVC Starter App",
             subtitle: "Express + EJS + Static Assets",
             images,
-            featuredProduct
+            allProduct
         });
-        // res.status(200).json({ images });
+        // res.status(200).json({ allProduct, images });
     } catch (error) {
         console.error('Error fetching images:', error.message);
         res.render("products", {
