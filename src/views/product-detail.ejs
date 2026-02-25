@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script src="/js/header.js" defer></script>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+    <%- include("../partials/header") %>
+
+    <main class="container">
+        <a href="/products" class="product-back-link">← Back to products</a>
+
+        <% if (product) { %>
+            <section class="product-detail">
+                <div class="product-detail-image-wrap">
+                    <img
+                        src="<%= product.image_url || 'https://via.placeholder.com/900x600?text=No+Image' %>"
+                        alt="<%= product.name %>"
+                        class="product-detail-image"
+                    />
+                </div>
+
+                <div class="product-detail-content">
+                    <h1><%= product.name %></h1>
+                    <p class="product-detail-category"><%= product.category_name || 'Uncategorized' %></p>
+                    <p class="product-detail-price">$<%= Number(product.price).toFixed(2) %></p>
+                    <p class="product-detail-description"><%= product.description %></p>
+                </div>
+            </section>
+        <% } else { %>
+            <section class="product-detail-empty">
+                <h1>Product Not Found</h1>
+                <p><%= errorMessage || 'The requested product could not be loaded.' %></p>
+            </section>
+        <% } %>
+    </main>
+
+    <%- include("../partials/footer") %>
+</body>
+</html>
