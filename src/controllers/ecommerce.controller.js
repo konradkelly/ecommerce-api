@@ -1,5 +1,5 @@
 //place controller functions here...
-import { getAllProducts, getFeaturedProduct } from '../services/default.service.js';
+import { getAllProducts, getProductById, getFeaturedProduct } from '../services/default.service.js';
 import imageService from '../services/imageService.js';
 
 export const login = (req, res) => {
@@ -9,14 +9,14 @@ export const register = (req, res) => {
     res.status(200).json("hi from register");
 }
 export const products = async (req, res) => {
-    // res.status(200).json("hi from products from jonus");
+     //res.status(200).json("test route for products");
     try {
         const products = await getAllProducts();
-        res.render("products", {
-            title: "Products page",
-            products
-        });
-        // res.status(200).json(products);
+        // res.render("products", {
+        //     title: "Products page",
+        //     products
+        // });
+         res.status(200).json(products);
     } catch (error) {
         console.error('Error fetching images:', error.message);
         res.render("products", {
@@ -24,8 +24,18 @@ export const products = async (req, res) => {
             products: null
         });
     }
-    
 }
+
+export const getProductByIdentifier = async (req, res) => {
+    const { id } = req.params; // Extract the product ID from the route parameters
+    try {
+        const product = await getProductById(id);
+        res.status(200).json(product);
+    } catch (error) {
+        console.error('Error fetching product by ID:', error.message);
+        res.status(500).json({ error: 'Failed to fetch product by ID' });
+    }
+};
 
 export const getData = async (req, res) => {
     try {
