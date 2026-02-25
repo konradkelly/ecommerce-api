@@ -2,42 +2,79 @@ import { getDbPool } from './db.connect.js';
 
 export const findAllProducts = async () => {
 	const db = getDbPool();
-	const [rows] = await db.query('SELECT * FROM products ORDER BY id ASC');
+	const [rows] = await db.query(`
+		SELECT p.*, c.name AS category_name
+		FROM products p
+		LEFT JOIN categories c ON c.id = p.category_id
+		ORDER BY p.id ASC
+	`);
+	return rows;
+};
+
+export const findAllCategories = async () => {
+	const db = getDbPool();
+	const [rows] = await db.query('SELECT id, name FROM categories ORDER BY name ASC');
 	return rows;
 };
 
 export const findProductById = async (id) => {
 	const db = getDbPool();
-	const [rows] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
+	const [rows] = await db.query(`
+		SELECT p.*, c.name AS category_name
+		FROM products p
+		LEFT JOIN categories c ON c.id = p.category_id
+		WHERE p.id = ?
+	`, [id]);
 	return rows[0] || null;
 }
 
-export const findFilteredProducts = async ({ category, minPrice, maxPrice, sort }) => {
+export const findFilteredProducts = async ({ search, name, category, minPrice, maxPrice, sort, direction }) => {
 	const db = getDbPool();
-	let query = 'SELECT * FROM products';
+	let query = `
+		SELECT p.*, c.name AS category_name
+		FROM products p
+		LEFT JOIN categories c ON c.id = p.category_id
+	`;
 	const params = [];
 	const conditions = [];
 
+	if (search) {
+		conditions.push('(p.name LIKE ? OR p.description LIKE ? OR c.name LIKE ?)');
+		params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+	}
+	if (name) {
+		conditions.push('p.name LIKE ?');
+		params.push(`%${name}%`);
+	}
 	if (category) {
-		conditions.push('category_id = ?');
+		conditions.push('p.category_id = ?');
 		params.push(category);
 	}
-	if (minPrice) {
-		conditions.push('price >= ?');
+	if (minPrice !== undefined && minPrice !== null) {
+		conditions.push('p.price >= ?');
 		params.push(minPrice);
 	}
-	if (maxPrice) {
-		conditions.push('price <= ?');
+	if (maxPrice !== undefined && maxPrice !== null) {
+		conditions.push('p.price <= ?');
 		params.push(maxPrice);
 	}
 	if (conditions.length > 0) {
 		query += ' WHERE ' + conditions.join(' AND ');
-		}
-	if (sort) {
-		const validSorts = ['price', 'name', 'id'];
-		if (validSorts.includes(sort))
-		query += ` ORDER BY ${sort} ASC`;	
 	}
+
+	const sortableColumns = {
+		price: 'p.price',
+		name: 'p.name',
+		id: 'p.id'
+	};
+	const sortColumn = sortableColumns[sort] || 'p.id';
+	const sortDirection = direction === 'desc' ? 'DESC' : 'ASC';
+	query += ` ORDER BY ${sortColumn} ${sortDirection}`;
+
+	if (sortColumn !== 'p.id') {
+		query += ', p.id ASC';
+	}
+
 	const [rows] = await db.query(query, params);
 	return rows;
 };
