@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //routers
-app.use("/", ecommerceRouter);
+app.use("/api", ecommerceRouter);
 
 
 export default app;
