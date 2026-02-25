@@ -6,6 +6,42 @@ export const findAllProducts = async () => {
 	return rows;
 };
 
+export const findProductById = async (id) => {
+	const db = getDbPool();
+	const [rows] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
+	return rows[0] || null;
+}
+
+export const findFilteredProducts = async ({ category, minPrice, maxPrice, sort }) => {
+	const db = getDbPool();
+	let query = 'SELECT * FROM products';
+	const params = [];
+	const conditions = [];
+
+	if (category) {
+		conditions.push('category_id = ?');
+		params.push(category);
+	}
+	if (minPrice) {
+		conditions.push('price >= ?');
+		params.push(minPrice);
+	}
+	if (maxPrice) {
+		conditions.push('price <= ?');
+		params.push(maxPrice);
+	}
+	if (conditions.length > 0) {
+		query += ' WHERE ' + conditions.join(' AND ');
+		}
+	if (sort) {
+		const validSorts = ['price', 'name', 'id'];
+		if (validSorts.includes(sort))
+		query += ` ORDER BY ${sort} ASC`;	
+	}
+	const [rows] = await db.query(query, params);
+	return rows;
+};
+
 export const findRandomProducts = async (limit = 4) => {
 	const db = getDbPool();
 	const safeLimit = Number.isInteger(limit) && limit > 0 ? limit : 4;

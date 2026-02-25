@@ -11,8 +11,37 @@
 </head>
 <body>
     <%- include("../partials/header") %>
-    
-    
+    <!-- add ejs tables -->
+    <main class="container">
+        <h1><%= title %></h1>
+
+        <% if (products) { %>
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% products.forEach(product => { %>
+                        <tr>
+                            <td><%= product.id %></td>
+                            <td><%= product.name %></td>
+                            <td><%= product.description %></td>
+                            <td>$<%= Number(product.price).toFixed(2) %></td>
+                            <td><%= product.category_id %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No products available.</p>
+        <% } %>
+    </main>
 
     <%- include("../partials/footer") %>
 </body>
