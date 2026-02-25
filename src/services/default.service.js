@@ -1,6 +1,17 @@
-import { findAllProducts, findProductById, findRandomProducts, findFeaturedProduct } from '../model/default.repo.js';
+import {
+	findAllProducts,
+	findFilteredProducts,
+	findRandomProducts,
+	findFeaturedProduct,
+	findAllCategories,
+	findProductById
+} from '../model/default.repo.js';
 
 export const getAllProducts = () => findAllProducts();
+
+export const getFilteredProducts = (filters) => findFilteredProducts(filters);
+
+export const getAllCategories = () => findAllCategories();
 
 export const getProductById = (id) => findProductById(id);
 
