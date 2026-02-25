@@ -24,7 +24,6 @@ export const products = async (req, res) => {
             products: null
         });
     }
-    
 }
 
 export const getData = async (req, res) => {
