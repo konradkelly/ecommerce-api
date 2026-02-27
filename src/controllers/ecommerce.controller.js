@@ -44,17 +44,26 @@ export const login = (req, res) => {
 };
 
 export const register = (req, res) => {
-    res.status(200).json("hi from register");
-}
-export const products = async (req, res) => {
-    // res.status(200).json("hi from products from jonus");
+    res.status(200).json('Register page placeholder for Milestone #3');
+};
+
+export const productsPage = async (req, res) => {
     try {
-        const products = await getAllProducts();
+        const filters = parseFilters(req.query);
+        const hasFilters = hasFilterValues(filters);
+
+        const [products, categories] = await Promise.all([
+            hasFilters ? getFilteredProducts(filters) : getAllProducts(),
+            getAllCategories()
+        ]);
+
         res.render("products", {
             title: "Products page",
-            products
+            products,
+            categories,
+            filters,
+            resultCount: products.length
         });
-        // res.status(200).json(products);
     } catch (error) {
         console.error('Error loading products page:', error.message);
         res.render("products", {
@@ -86,9 +95,48 @@ export const getProductsApi = async (req, res) => {
             filters,
             products
         });
+    } catch (error) {
+        console.error('Error loading products API:', error.message);
+        res.status(500).json({ error: 'Unable to fetch products.' });
     }
-    
-}
+};
+
+export const productDetailPage = async (req, res) => {
+    const productId = Number(req.params.id);
+
+    if (!Number.isInteger(productId) || productId <= 0) {
+        return res.status(404).render('product-detail', {
+            title: 'Product Not Found',
+            product: null,
+            errorMessage: 'The product you requested does not exist.'
+        });
+    }
+
+    try {
+        const product = await getProductById(productId);
+
+        if (!product) {
+            return res.status(404).render('product-detail', {
+                title: 'Product Not Found',
+                product: null,
+                errorMessage: 'The product you requested does not exist.'
+            });
+        }
+
+        return res.render('product-detail', {
+            title: product.name,
+            product,
+            errorMessage: ''
+        });
+    } catch (error) {
+        console.error('Error loading product detail:', error.message);
+        return res.status(500).render('product-detail', {
+            title: 'Product',
+            product: null,
+            errorMessage: 'Unable to load this product right now.'
+        });
+    }
+};
 
 export const getData = async (req, res) => {
     try {
