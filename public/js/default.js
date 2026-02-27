@@ -1,6 +1,6 @@
 /* global document, window */
 
-const productsFilterForm = document.querySelector('[data-products-filter-form]');
+/*const productsFilterForm = document.querySelector('[data-products-filter-form]');
 
 if (productsFilterForm) {
 	const productsGrid = document.querySelector('[data-products-grid]');
@@ -104,4 +104,4 @@ if (productsFilterForm) {
 			productsFilterForm.submit();
 		}
 	});
-}
+}*/

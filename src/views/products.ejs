@@ -8,6 +8,7 @@
     <script src="/js/header.js" defer></script>
     <script src="/js/default.js" defer></script>
 
+    <link rel="stylesheet" href="/css/products.css" />
     <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
@@ -15,7 +16,7 @@
     <main class="container">
         <h1><%= title %></h1>
 
-        <form class="products-filter-form" method="get" action="/products" data-products-filter-form>
+        <form class="products-filter-form" method="get" action="/api/products" data-products-filter-form>
             <div class="filter-row">
                 <label for="search">Search</label>
                 <input
@@ -98,7 +99,7 @@
 
             <div class="filter-actions">
                 <button type="submit">Apply Filters</button>
-                <a class="filter-clear" href="/products">Clear</a>
+                <a class="filter-clear" href="/api/products">Clear</a>
             </div>
         </form>
 
@@ -109,7 +110,7 @@
                 <% products.forEach(product => { %>
                     <article class="product-card">
                         <div class="product-card-media">
-                            <a href="/products/<%= product.id %>" class="product-card-link-media" aria-label="View details for <%= product.name %>">
+                            <a href="/api/products/<%= product.id %>" class="product-card-link-media" aria-label="View details for <%= product.name %>">
                             <img
                                 src="<%= product.image_url || 'https://via.placeholder.com/640x420?text=No+Image' %>"
                                 alt="<%= product.name %>"
@@ -118,13 +119,13 @@
                             </a>
                         </div>
                         <div class="product-card-body">
-                            <h2 class="product-card-title"><a href="/products/<%= product.id %>" class="product-card-link"><%= product.name %></a></h2>
+                            <h2 class="product-card-title"><a href="/api/products/<%= product.id %>" class="product-card-link"><%= product.name %></a></h2>
                             <p class="product-card-description"><%= product.description %></p>
                             <div class="product-card-meta">
                                 <span class="product-card-category"><%= product.category_name || 'Uncategorized' %></span>
                                 <strong class="product-card-price">$<%= Number(product.price).toFixed(2) %></strong>
                             </div>
-                            <a href="/products/<%= product.id %>" class="product-card-details">View Details</a>
+                            <a href="/api/products/<%= product.id %>" class="product-card-details">View Details</a>
                         </div>
                     </article>
                 <% }) %>
