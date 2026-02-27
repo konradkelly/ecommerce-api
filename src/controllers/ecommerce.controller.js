@@ -8,6 +8,8 @@ import {
 } from '../services/default.service.js';
 import imageService from '../services/imageService.js';
 
+
+// these types of const without export should be in service or model layer or something.
 const parseFilters = (query = {}) => {
     const toNumber = (value) => {
         if (value === undefined || value === null || value === '') {
@@ -46,6 +48,24 @@ export const login = (req, res) => {
 export const register = (req, res) => {
     res.status(200).json("hi from register");
 }
+
+export const productById = async (req, res) => {
+    try {
+        const product = await getProductById(req.params.id);
+        res.render("product-detail", {
+            title: "Product-detail page",
+            product
+        });
+    } catch (error) {
+        console.error('Error loading product-detail page:', error.message);
+        res.render("product-detail", {
+            title: "Product-detail page",
+            product: null,
+            errorMessage: "The requested product could not be loaded."
+        });
+    }
+}
+
 export const products = async (req, res) => {
     // res.status(200).json("hi from products from jonus");
     try {
@@ -81,7 +101,6 @@ export const products = async (req, res) => {
         });
     }
 };
-
 export const getProductsApi = async (req, res) => {
     try {
         const filters = parseFilters(req.query);
