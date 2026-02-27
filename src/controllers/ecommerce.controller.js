@@ -49,10 +49,17 @@ export const register = (req, res) => {
 export const products = async (req, res) => {
     // res.status(200).json("hi from products from jonus");
     try {
-        const products = await getAllProducts();
+        const filters = parseFilters(req.query);
+        const hasFilters = hasFilterValues(filters);
+        const products = hasFilters ? await getFilteredProducts(filters) : await getAllProducts();
+        const categories = await getAllCategories();
+
         res.render("products", {
             title: "Products page",
-            products
+            products,
+            categories,
+            filters,
+            resultCount: products.length
         });
         // res.status(200).json(products);
     } catch (error) {
@@ -86,6 +93,9 @@ export const getProductsApi = async (req, res) => {
             filters,
             products
         });
+    } catch (error) {
+        console.error('Database error:', error.message);
+        res.status(500).json({ error: 'getProductsApi: Database query failed' });        
     }
     
 }
