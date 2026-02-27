@@ -8,6 +8,8 @@ import {
 } from '../services/default.service.js';
 import imageService from '../services/imageService.js';
 
+
+// these types of const without export should be in service or model layer or something.
 const parseFilters = (query = {}) => {
     const toNumber = (value) => {
         if (value === undefined || value === null || value === '') {
@@ -44,18 +46,33 @@ export const login = (req, res) => {
 };
 
 export const register = (req, res) => {
-    res.status(200).json('Register page placeholder for Milestone #3');
-};
+    res.status(200).json("hi from register");
+}
 
-export const productsPage = async (req, res) => {
+export const productById = async (req, res) => {
+    try {
+        const product = await getProductById(req.params.id);
+        res.render("product-detail", {
+            title: "Product-detail page",
+            product
+        });
+    } catch (error) {
+        console.error('Error loading product-detail page:', error.message);
+        res.render("product-detail", {
+            title: "Product-detail page",
+            product: null,
+            errorMessage: "The requested product could not be loaded."
+        });
+    }
+}
+
+export const products = async (req, res) => {
+    // res.status(200).json("hi from products from jonus");
     try {
         const filters = parseFilters(req.query);
         const hasFilters = hasFilterValues(filters);
-
-        const [products, categories] = await Promise.all([
-            hasFilters ? getFilteredProducts(filters) : getAllProducts(),
-            getAllCategories()
-        ]);
+        const products = hasFilters ? await getFilteredProducts(filters) : await getAllProducts();
+        const categories = await getAllCategories();
 
         res.render("products", {
             title: "Products page",
@@ -83,7 +100,6 @@ export const productsPage = async (req, res) => {
         });
     }
 };
-
 export const getProductsApi = async (req, res) => {
     try {
         const filters = parseFilters(req.query);
@@ -96,47 +112,11 @@ export const getProductsApi = async (req, res) => {
             products
         });
     } catch (error) {
-        console.error('Error loading products API:', error.message);
-        res.status(500).json({ error: 'Unable to fetch products.' });
+        console.error('Database error:', error.message);
+        res.status(500).json({ error: 'getProductsApi: Database query failed' });        
     }
-};
-
-export const productDetailPage = async (req, res) => {
-    const productId = Number(req.params.id);
-
-    if (!Number.isInteger(productId) || productId <= 0) {
-        return res.status(404).render('product-detail', {
-            title: 'Product Not Found',
-            product: null,
-            errorMessage: 'The product you requested does not exist.'
-        });
-    }
-
-    try {
-        const product = await getProductById(productId);
-
-        if (!product) {
-            return res.status(404).render('product-detail', {
-                title: 'Product Not Found',
-                product: null,
-                errorMessage: 'The product you requested does not exist.'
-            });
-        }
-
-        return res.render('product-detail', {
-            title: product.name,
-            product,
-            errorMessage: ''
-        });
-    } catch (error) {
-        console.error('Error loading product detail:', error.message);
-        return res.status(500).render('product-detail', {
-            title: 'Product',
-            product: null,
-            errorMessage: 'Unable to load this product right now.'
-        });
-    }
-};
+    
+}
 
 export const getData = async (req, res) => {
     try {
