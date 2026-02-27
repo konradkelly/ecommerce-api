@@ -13,8 +13,8 @@ router.get('/login', ecomCtl.login);
 // http://localhost:8001/register
 router.get('/register', ecomCtl.register);
 // http://localhost:8001/api/products
-router.get('/api/products', ecomCtl.productsPage);
+router.get('/api/products', ecomCtl.products);
 // http://localhost:8001/api/products/11
-router.get('/api/products/:id', ecomCtl.productDetailPage);
+router.get('/api/products/:id', ecomCtl.productById);
 
 export default router;
