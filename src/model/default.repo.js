@@ -19,12 +19,14 @@ export const findAllCategories = async () => {
 
 export const findProductById = async (id) => {
 	const db = getDbPool();
+	console.log("Querying product with ID:", id); // Debugging log
 	const [rows] = await db.query(`
 		SELECT p.*, c.name AS category_name
 		FROM products p
 		LEFT JOIN categories c ON c.id = p.category_id
 		WHERE p.id = ?
 	`, [id]);
+	console.log("Query result:", rows); // Debugging log
 	return rows[0] || null;
 }
 
