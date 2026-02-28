@@ -1,18 +1,19 @@
 import { Router } from "express";
-import * as ecomCtl from '../controllers/ecommerce.controller.js';
+import * as ejsCtl from '../controllers/ejs.controller.js';
+import * as apiCtl from '../controllers/api.controller.js';
 
 const router = Router();
 
 // --- HTML / EJS rendered routes ---
-router.get("/", ecomCtl.landingPage);
-router.get('/login', ecomCtl.login);
-router.get('/register', ecomCtl.register);
-router.get('/products', ecomCtl.products);
-router.get('/products/:id', ecomCtl.productById);
+router.get("/", ejsCtl.landingPage);
+router.get('/login', ejsCtl.login);
+router.get('/register', ejsCtl.register);
+router.get('/products', ejsCtl.products);
+router.get('/products/:id', ejsCtl.productById);
 
 // --- JSON API routes ---
-router.get('/data', ecomCtl.getData);
-router.get('/api/products', ecomCtl.getProductsApi);
-router.get('/api/products/:id', ecomCtl.getProductByIdApi);
+router.get('/data', apiCtl.getData);
+router.get('/api/products', apiCtl.getProductsApi);
+router.get('/api/products/:id', apiCtl.getProductByIdApi);
 
 export default router;
