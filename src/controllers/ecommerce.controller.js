@@ -1,4 +1,3 @@
-//place controller functions here...
 import {
     getAllProducts,
     getFeaturedProduct,
@@ -8,14 +7,11 @@ import {
 } from '../services/default.service.js';
 import imageService from '../services/imageService.js';
 
-
-// these types of const without export should be in service or model layer or something.
 const parseFilters = (query = {}) => {
     const toNumber = (value) => {
         if (value === undefined || value === null || value === '') {
             return undefined;
         }
-
         const parsed = Number(value);
         return Number.isFinite(parsed) ? parsed : undefined;
     };
@@ -23,7 +19,7 @@ const parseFilters = (query = {}) => {
     return {
         search: typeof query.search === 'string' ? query.search.trim() : '',
         name: typeof query.name === 'string' ? query.name.trim() : '',
-        category: toNumber(query.category),
+        category: typeof query.category === 'string' ? query.category.trim() : undefined,
         minPrice: toNumber(query.minPrice),
         maxPrice: toNumber(query.maxPrice),
         sort: typeof query.sort === 'string' ? query.sort : 'id',
@@ -41,33 +37,42 @@ const hasFilterValues = (filters) => Boolean(
     filters.direction !== 'asc'
 );
 
+// --- Auth placeholders ---
+
 export const login = (req, res) => {
     res.status(200).json('Login page placeholder for Milestone #3');
 };
 
 export const register = (req, res) => {
-    res.status(200).json("hi from register");
-}
+    res.status(200).json('Register page placeholder for Milestone #3');
+};
 
-export const productById = async (req, res) => {
+// --- HTML / EJS rendered ---
+
+export const landingPage = async (req, res) => {
     try {
-        const product = await getProductById(req.params.id);
-        res.render("product-detail", {
-            title: "Product-detail page",
-            product
+        const [images, featuredProduct] = await Promise.all([
+            imageService.getRandomImages(),
+            getFeaturedProduct()
+        ]);
+        res.render("landing", {
+            title: "MVC Starter App",
+            subtitle: "Express + EJS + Static Assets",
+            images,
+            featuredProduct
         });
     } catch (error) {
-        console.error('Error loading product-detail page:', error.message);
-        res.render("product-detail", {
-            title: "Product-detail page",
-            product: null,
-            errorMessage: "The requested product could not be loaded."
+        console.error('Error fetching landing page data:', error.message);
+        res.render("landing", {
+            title: "MVC Starter App",
+            subtitle: "Express + EJS + Static Assets",
+            images: [],
+            featuredProduct: null
         });
     }
-}
+};
 
 export const products = async (req, res) => {
-    // res.status(200).json("hi from products from jonus");
     try {
         const filters = parseFilters(req.query);
         const hasFilters = hasFilterValues(filters);
@@ -88,18 +93,45 @@ export const products = async (req, res) => {
             products: [],
             categories: [],
             filters: {
-                search: '',
-                name: '',
-                category: undefined,
-                minPrice: undefined,
-                maxPrice: undefined,
-                sort: 'id',
-                direction: 'asc'
+                search: '', name: '', category: undefined,
+                minPrice: undefined, maxPrice: undefined,
+                sort: 'id', direction: 'asc'
             },
             resultCount: 0
         });
     }
 };
+
+export const productById = async (req, res) => {
+    try {
+        const product = await getProductById(req.params.id);
+        res.render("product-detail", {
+            title: "Product Detail",
+            product
+        });
+    } catch (error) {
+        console.error('Error loading product detail page:', error.message);
+        res.render("product-detail", {
+            title: "Product Detail",
+            product: null,
+            errorMessage: "The requested product could not be loaded."
+        });
+    }
+};
+
+// --- JSON API ---
+
+export const getData = async (req, res) => {
+    try {
+        const products = await getAllProducts();
+        const images = await imageService.getRandomImages();
+        res.status(200).json({ products, images });
+    } catch (error) {
+        console.error('Database error:', error.message);
+        res.status(500).json({ error: 'getData: Database query failed' });
+    }
+};
+
 export const getProductsApi = async (req, res) => {
     try {
         const filters = parseFilters(req.query);
@@ -113,44 +145,19 @@ export const getProductsApi = async (req, res) => {
         });
     } catch (error) {
         console.error('Database error:', error.message);
-        res.status(500).json({ error: 'getProductsApi: Database query failed' });        
-    }
-    
-}
-
-export const getData = async (req, res) => {
-    try {
-        const products = await getAllProducts();
-        const images = await imageService.getRandomImages();
-        res.status(200).json({ products, images });
-        
-    } catch (error) {
-        console.error('Database error:', error.message);
-        res.status(500).json({ error: 'getData: Database query failed' });
+        res.status(500).json({ error: 'getProductsApi: Database query failed' });
     }
 };
 
-export const landingPage = async (req, res) => {
+export const getProductByIdApi = async (req, res) => {
     try {
-        const [images, featuredProduct] = await Promise.all([
-            imageService.getRandomImages(),
-            getFeaturedProduct()
-        ]);
-        // console.log(images);
-        res.render("landing", {
-            title: "MVC Starter App",
-            subtitle: "Express + EJS + Static Assets",
-            images,
-            featuredProduct
-        });
-        // res.status(200).json({ images });
+        const product = await getProductById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.status(200).json(product);
     } catch (error) {
-        console.error('Error fetching images:', error.message);
-        res.render("landing", {
-            title: "MVC Starter App",
-            subtitle: "Express + EJS + Static Assets",
-            images: [],
-            featuredProduct: null
-        });
+        console.error('Error fetching product by ID:', error.message);
+        res.status(500).json({ error: 'Failed to fetch product by ID' });
     }
-}
+};
