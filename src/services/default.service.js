@@ -18,3 +18,4 @@ export const getProductById = (id) => findProductById(id);
 export const getRandomProducts = (limit = 4) => findRandomProducts(limit);
 
 export const getFeaturedProduct = () => findFeaturedProduct();
+

@@ -12,3 +12,8 @@ resource "aws_db_instance" "mysql" {
   publicly_accessible = true
   skip_final_snapshot = true
 }
+
+resource "aws_db_subnet_group" "main" {
+  name       = "main-db-subnet-group"
+  subnet_ids = [aws_subnet.public.id, aws_subnet.public_2.id]
+}

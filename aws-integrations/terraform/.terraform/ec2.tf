@@ -20,11 +20,11 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   ingress {
-  description = "Express App"
-  from_port   = 8001
-  to_port     = 8001
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
+    description = "Express App"
+    from_port   = 8001
+    to_port     = 8001
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -33,18 +33,27 @@ resource "aws_security_group" "ec2_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "${var.project_name}-ec2-sg"
+  }
 }
 
 resource "aws_instance" "app" {
-  ami                    = "ami-0c55b159cbfafe1f0" # Ubuntu 22.04 LTS in us-east-2, update if needed
-  instance_type          = var.instance_type
-  subnet_id              = aws_subnet.public.id
-  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
-  key_name               = var.key_pair_name
+  ami                         = "ami-0900fe555666598a2" # Ubuntu 22.04 LTS us-east-2
+  instance_type               = var.instance_type
+  subnet_id                   = aws_subnet.public.id
+  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+  key_name                    = var.key_pair_name
+  associate_public_ip_address = true
 
   user_data = file("${path.module}/setup.sh")
 
   tags = {
-    Name = "express-app"
+    Name = "${var.project_name}-express-app"
   }
+}
+
+output "ec2_public_ip" {
+  value = aws_instance.app.public_ip
 }

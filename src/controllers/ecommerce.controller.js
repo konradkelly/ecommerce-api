@@ -1,4 +1,3 @@
-//place controller functions here...
 import {
     getAllProducts,
     getFeaturedProduct,
@@ -13,7 +12,6 @@ const parseFilters = (query = {}) => {
         if (value === undefined || value === null || value === '') {
             return undefined;
         }
-
         const parsed = Number(value);
         return Number.isFinite(parsed) ? parsed : undefined;
     };
@@ -21,7 +19,7 @@ const parseFilters = (query = {}) => {
     return {
         search: typeof query.search === 'string' ? query.search.trim() : '',
         name: typeof query.name === 'string' ? query.name.trim() : '',
-        category: toNumber(query.category),
+        category: typeof query.category === 'string' ? query.category.trim() : undefined,
         minPrice: toNumber(query.minPrice),
         maxPrice: toNumber(query.maxPrice),
         sort: typeof query.sort === 'string' ? query.sort : 'id',
@@ -39,6 +37,8 @@ const hasFilterValues = (filters) => Boolean(
     filters.direction !== 'asc'
 );
 
+// --- Auth placeholders ---
+
 export const login = (req, res) => {
     res.status(200).json('Login page placeholder for Milestone #3');
 };
@@ -47,15 +47,37 @@ export const register = (req, res) => {
     res.status(200).json('Register page placeholder for Milestone #3');
 };
 
-export const productsPage = async (req, res) => {
+// --- HTML / EJS rendered ---
+
+export const landingPage = async (req, res) => {
+    try {
+        const [images, featuredProduct] = await Promise.all([
+            imageService.getRandomImages(),
+            getFeaturedProduct()
+        ]);
+        res.render("landing", {
+            title: "MVC Starter App",
+            subtitle: "Express + EJS + Static Assets",
+            images,
+            featuredProduct
+        });
+    } catch (error) {
+        console.error('Error fetching landing page data:', error.message);
+        res.render("landing", {
+            title: "MVC Starter App",
+            subtitle: "Express + EJS + Static Assets",
+            images: [],
+            featuredProduct: null
+        });
+    }
+};
+
+export const products = async (req, res) => {
     try {
         const filters = parseFilters(req.query);
         const hasFilters = hasFilterValues(filters);
-
-        const [products, categories] = await Promise.all([
-            hasFilters ? getFilteredProducts(filters) : getAllProducts(),
-            getAllCategories()
-        ]);
+        const products = hasFilters ? await getFilteredProducts(filters) : await getAllProducts();
+        const categories = await getAllCategories();
 
         res.render("products", {
             title: "Products page",
@@ -71,16 +93,42 @@ export const productsPage = async (req, res) => {
             products: [],
             categories: [],
             filters: {
-                search: '',
-                name: '',
-                category: undefined,
-                minPrice: undefined,
-                maxPrice: undefined,
-                sort: 'id',
-                direction: 'asc'
+                search: '', name: '', category: undefined,
+                minPrice: undefined, maxPrice: undefined,
+                sort: 'id', direction: 'asc'
             },
             resultCount: 0
         });
+    }
+};
+
+export const productById = async (req, res) => {
+    try {
+        const product = await getProductById(req.params.id);
+        res.render("product-detail", {
+            title: "Product Detail",
+            product
+        });
+    } catch (error) {
+        console.error('Error loading product detail page:', error.message);
+        res.render("product-detail", {
+            title: "Product Detail",
+            product: null,
+            errorMessage: "The requested product could not be loaded."
+        });
+    }
+};
+
+// --- JSON API ---
+
+export const getData = async (req, res) => {
+    try {
+        const products = await getAllProducts();
+        const images = await imageService.getRandomImages();
+        res.status(200).json({ products, images });
+    } catch (error) {
+        console.error('Database error:', error.message);
+        res.status(500).json({ error: 'getData: Database query failed' });
     }
 };
 
@@ -96,81 +144,20 @@ export const getProductsApi = async (req, res) => {
             products
         });
     } catch (error) {
-        console.error('Error loading products API:', error.message);
-        res.status(500).json({ error: 'Unable to fetch products.' });
-    }
-};
-
-export const productDetailPage = async (req, res) => {
-    const productId = Number(req.params.id);
-
-    if (!Number.isInteger(productId) || productId <= 0) {
-        return res.status(404).render('product-detail', {
-            title: 'Product Not Found',
-            product: null,
-            errorMessage: 'The product you requested does not exist.'
-        });
-    }
-
-    try {
-        const product = await getProductById(productId);
-
-        if (!product) {
-            return res.status(404).render('product-detail', {
-                title: 'Product Not Found',
-                product: null,
-                errorMessage: 'The product you requested does not exist.'
-            });
-        }
-
-        return res.render('product-detail', {
-            title: product.name,
-            product,
-            errorMessage: ''
-        });
-    } catch (error) {
-        console.error('Error loading product detail:', error.message);
-        return res.status(500).render('product-detail', {
-            title: 'Product',
-            product: null,
-            errorMessage: 'Unable to load this product right now.'
-        });
-    }
-};
-
-export const getData = async (req, res) => {
-    try {
-        const products = await getAllProducts();
-        const images = await imageService.getRandomImages();
-        res.status(200).json({ products, images });
-        
-    } catch (error) {
         console.error('Database error:', error.message);
-        res.status(500).json({ error: 'getData: Database query failed' });
+        res.status(500).json({ error: 'getProductsApi: Database query failed' });
     }
 };
 
-export const landingPage = async (req, res) => {
+export const getProductByIdApi = async (req, res) => {
     try {
-        const [images, featuredProduct] = await Promise.all([
-            imageService.getRandomImages(),
-            getFeaturedProduct()
-        ]);
-        // console.log(images);
-        res.render("landing", {
-            title: "MVC Starter App",
-            subtitle: "Express + EJS + Static Assets",
-            images,
-            featuredProduct
-        });
-        // res.status(200).json({ images });
+        const product = await getProductById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.status(200).json(product);
     } catch (error) {
-        console.error('Error fetching images:', error.message);
-        res.render("landing", {
-            title: "MVC Starter App",
-            subtitle: "Express + EJS + Static Assets",
-            images: [],
-            featuredProduct: null
-        });
+        console.error('Error fetching product by ID:', error.message);
+        res.status(500).json({ error: 'Failed to fetch product by ID' });
     }
-}
+};
