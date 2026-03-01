@@ -127,3 +127,11 @@ export const productsPage = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
+export const login = (req, res) => {
+    res.render("login", { title: "Login" });
+};
+
+export const register = (req, res) => {
+    res.render("register", { title: "Register" });
+};
