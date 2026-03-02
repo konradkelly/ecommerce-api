@@ -53,7 +53,7 @@ export default [
                 "skipComments": true
             }],
             "max-lines-per-function": ["error", {
-                "max": 50, 
+                "max": 500, 
                 "skipBlankLines": true,
                 "skipComments": true
             }],

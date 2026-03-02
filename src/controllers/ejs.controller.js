@@ -66,6 +66,8 @@ export const products = async (req, res) => {
         const hasFilters = hasFilterValues(filters);
         const products = hasFilters ? await getFilteredProducts(filters) : await getAllProducts();
         const categories = await getAllCategories();
+        
+        // const products1 = await getAllProducts();
 
         res.render("products", {
             title: "Products page",
