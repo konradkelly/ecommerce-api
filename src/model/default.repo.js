@@ -54,7 +54,7 @@ export const findFilteredProducts = async ({ search, name, category, minPrice, m
 		params.push(`%${name}%`);
 	}
 	if (category) {
-		conditions.push('c.name = ?');
+		conditions.push('LOWER(c.name) = LOWER(?)');
 		params.push(category);
 	}
 	if (minPrice !== undefined && minPrice !== null) {
