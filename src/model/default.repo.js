@@ -2,36 +2,41 @@ import { getDbPool } from './db.connect.js';
 
 export const findAllProducts = async () => {
 	const db = getDbPool();
+	console.log("Fetching all products...");
 	const [rows] = await db.query(`
 		SELECT p.*, c.name AS category_name
 		FROM products p
 		LEFT JOIN categories c ON c.id = p.category_id
 		ORDER BY p.id ASC
 	`);
+	console.log("Fetched products:", rows);
 	return rows;
 };
 
 export const findAllCategories = async () => {
 	const db = getDbPool();
+	console.log("Fetching all categories...");
 	const [rows] = await db.query('SELECT id, name FROM categories ORDER BY name ASC');
+	console.log("Fetched categories:", rows);
 	return rows;
 };
 
 export const findProductById = async (id) => {
 	const db = getDbPool();
-	console.log("Querying product with ID:", id); // Debugging log
+	console.log("Querying product with ID:", id);
 	const [rows] = await db.query(`
 		SELECT p.*, c.name AS category_name
 		FROM products p
 		LEFT JOIN categories c ON c.id = p.category_id
 		WHERE p.id = ?
 	`, [id]);
-	console.log("Query result:", rows); // Debugging log
+	console.log("Query result:", rows);
 	return rows[0] || null;
 }
 
 export const findFilteredProducts = async ({ search, name, category, minPrice, maxPrice, sort, direction }) => {
 	const db = getDbPool();
+	console.log("Fetching filtered products with filters:", { search, name, category, minPrice, maxPrice, sort, direction });
 	let query = `
 		SELECT p.*, c.name AS category_name
 		FROM products p
@@ -49,7 +54,7 @@ export const findFilteredProducts = async ({ search, name, category, minPrice, m
 		params.push(`%${name}%`);
 	}
 	if (category) {
-		conditions.push('p.category_id = ?');
+		conditions.push('c.name = ?');
 		params.push(category);
 	}
 	if (minPrice !== undefined && minPrice !== null) {
@@ -77,19 +82,24 @@ export const findFilteredProducts = async ({ search, name, category, minPrice, m
 		query += ', p.id ASC';
 	}
 
+	console.log("Executing query:", query, "with params:", params);
 	const [rows] = await db.query(query, params);
+	console.log("Fetched filtered products:", rows);
 	return rows;
 };
 
 export const findRandomProducts = async (limit = 4) => {
 	const db = getDbPool();
+	console.log("Fetching random products with limit:", limit);
 	const safeLimit = Number.isInteger(limit) && limit > 0 ? limit : 4;
 	const [rows] = await db.query('SELECT * FROM products ORDER BY RAND() LIMIT ?', [safeLimit]);
+	console.log("Fetched random products:", rows);
 	return rows;
 };
 
 export const findFeaturedProduct = async () => {
 	const db = getDbPool();
+	console.log("Fetching featured product...");
 	const [featuredRows] = await db.query(`
 		SELECT p.*, c.name AS category_name
 		FROM products p
@@ -98,11 +108,13 @@ export const findFeaturedProduct = async () => {
 		ORDER BY RAND()
 		LIMIT 1
 	`);
+	console.log("Fetched featured product:", featuredRows);
 
 	if (featuredRows.length > 0) {
 		return featuredRows[0];
 	}
 
+	console.log("No featured product found, fetching fallback product...");
 	const [fallbackRows] = await db.query(`
 		SELECT p.*, c.name AS category_name
 		FROM products p
@@ -110,5 +122,6 @@ export const findFeaturedProduct = async () => {
 		ORDER BY RAND()
 		LIMIT 1
 	`);
+	console.log("Fetched fallback product:", fallbackRows);
 	return fallbackRows[0] || null;
 };

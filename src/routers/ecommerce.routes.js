@@ -1,18 +1,33 @@
 import { Router } from "express";
-import * as ecomCtl from '../controllers/ecommerce.controller.js';
+import * as ejsCtl from '../controllers/ejs.controller.js';
+import * as apiCtl from '../controllers/api.controller.js';
 
 const router = Router();
 
 // --- HTML / EJS rendered routes ---
-router.get("/", ecomCtl.landingPage);
-router.get('/login', ecomCtl.login);
-router.get('/register', ecomCtl.register);
-router.get('/products', ecomCtl.products);
-router.get('/products/:id', ecomCtl.productById);
+// GET http://localhost:8001/
+router.get("/", ejsCtl.landingPage);
+
+// GET http://localhost:8001/login
+router.get('/login', ejsCtl.login);
+
+// GET http://localhost:8001/register
+router.get('/register', ejsCtl.register);
+
+// GET http://localhost:8001/products
+router.get('/products', ejsCtl.products);
+
+// GET http://localhost:8001/products/:id
+router.get('/products/:id', ejsCtl.productById);
 
 // --- JSON API routes ---
-router.get('/data', ecomCtl.getData);
-router.get('/api/products', ecomCtl.getProductsApi);
-router.get('/api/products/:id', ecomCtl.getProductByIdApi);
+// GET http://localhost:8001/data
+router.get('/data', apiCtl.getData);
+
+// GET http://localhost:8001/api/products
+router.get('/api/products', apiCtl.getProductsApi);
+
+// GET http://localhost:8001/api/products/:id
+router.get('/api/products/:id', apiCtl.getProductByIdApi);
 
 export default router;
