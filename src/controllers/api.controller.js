@@ -17,7 +17,9 @@ const parseFilters = (query = {}) => {
     return {
         search: typeof query.search === 'string' ? query.search.trim() : '',
         name: typeof query.name === 'string' ? query.name.trim() : '',
-        category: typeof query.category === 'string' ? query.category.trim() : undefined,
+        category: typeof query.category === 'string'
+            ? query.category.trim()
+            : (typeof query.catagory === 'string' ? query.catagory.trim() : undefined),
         minPrice: toNumber(query.minPrice),
         maxPrice: toNumber(query.maxPrice),
         sort: typeof query.sort === 'string' ? query.sort : 'id',

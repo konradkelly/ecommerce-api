@@ -46,8 +46,8 @@
                     <option value="">All categories</option>
                     <% (categories || []).forEach(category => { %>
                         <option
-                            value="<%= category.id %>"
-                            <%= Number(filters?.category) === Number(category.id) ? 'selected' : '' %>
+                            value="<%= category.name %>"
+                            <%= (filters?.category || '') === category.name ? 'selected' : '' %>
                         >
                             <%= category.name %>
                         </option>
