@@ -111,6 +111,7 @@ export const productById = async (req, res) => {
     }
 };
 
+//WTF IS THIS?
 export const productsPage = async (req, res) => {
     try {
         const filters = parseFilters(req.query);
