@@ -18,7 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const productsFilterForm = document.querySelector('.products-filter-form')
     const productsGrid = document.querySelector('.products-grid');
     const productsCount = document.querySelector('.products-count');
-
+    if (productsFilterForm) {
+        productsFilterForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            fetchAndRenderProducts();
+        });
+        productsFilterForm.addEventListener('input', () => {
+            fetchAndRenderProducts();
+        });
+        // Fetch products on initial page load
+        fetchAndRenderProducts();
+    }
     // Helper to build product card HTML
     const buildProductCardMarkup = (product) => `
         <article class="product-card">
