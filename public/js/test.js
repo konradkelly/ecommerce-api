@@ -18,7 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const productsFilterForm = document.querySelector('.products-filter-form')
     const productsGrid = document.querySelector('.products-grid');
     const productsCount = document.querySelector('.products-count');
-
+    if (productsFilterForm) {
+        productsFilterForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            fetchAndRenderProducts();
+        });
+        productsFilterForm.addEventListener('input', () => {
+            fetchAndRenderProducts();
+        });
+        // Fetch products on initial page load
+        fetchAndRenderProducts();
+    }
     // Helper to build product card HTML
     const buildProductCardMarkup = (product) => `
         <article class="product-card">
@@ -41,42 +51,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch and update products
     async function fetchAndRenderProducts() {
-        // console.log(productsFilterForm);
         const controls = productsFilterForm.querySelectorAll('input[name], select[name], textarea[name]');
-        // console.log(controls);
-        // console.log(controls.value);
-        // const params = new URLSearchParams();
-        let queryString = '';
+        const params = new URLSearchParams();
 
         for (const control of controls) {
-            // console.log(control);
             const value = control.value.trim();
             if (value !== '') {
-                if (queryString !== '') {
-                    queryString += '&';
-                }
-                // params.set(control.name, value);
-                queryString += `${control.name}=${value}`;
+                params.set(control.name, value);
             }
         }
-        // controls.forEach(control => {
-        //     const value = control.value.trim();
-        //     if (value !== '') {
-        //         params.set(control.name, value);
-        //     }
-        // });
-        // const queryString = params.toString();
-        // console.log(queryString);
-        // console.log(queryString1);
+        const queryString = params.toString();
+
         const apiUrl = () => {
             if (queryString) {
                 return `/api/products?${queryString}`;
             }
             return '/api/products';
         }
-        // const apiUrl = queryString ? `/api/products?${queryString}` : '/api/products';
-        // console.log('apiUrl:', apiUrl);
-        // console.log('apiURL():', apiURL()); 
 
         try {
             const response = await fetch(
