@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <script src="/js/header.js" defer></script>
-    
+
     <link rel="stylesheet" href="/css/landingpageStyle.css" />
     <link rel="stylesheet" href="/css/styles.css" />
 </head>
@@ -59,14 +59,14 @@
         <section class="getStarted section center">
             <div class="text">
                 <h2>Get Started</h2>
-                <p>Browse our product catalog and inspect individual product details.</p>
-                <p class="note">Authentication and cart flows are planned for Milestone #3.</p>
+                <h4>Browse our product catalog and inspect individual product details.</h4>
+                <h4 class="note">Authentication and cart flows are planned for Milestone #3.</h4>
                 <a href="/login" class="cta-button">Login</a>
                 <a href="/register" class="cta-button">Create Account</a>
                 <a href="/products" class="cta-button">Browse Products</a>
             </div>
         </section>
-d
+
         <section class="spotlight section">
             <% if (featuredProduct) { %>
                 <div class="text spotlight-text">
@@ -95,7 +95,8 @@ d
         </section>
     </main>
     
+    <i data-lucide="heart" class="landing-heart-icon" aria-label="heart icon"></i>
 
-    <%- include("../partials/footer") %>
+    <%- include("../partials/footer") %> 
 </body>
 </html>
