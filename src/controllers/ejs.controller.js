@@ -62,37 +62,56 @@ export const landingPage = async (req, res) => {
     }
 };
 
+// export const products = async (req, res) => {
+//     try {
+//         const filters = parseFilters(req.query);
+//         const hasFilters = hasFilterValues(filters);
+//         const products = hasFilters ? await getFilteredProducts(filters) : await getAllProducts();
+//         const categories = await getAllCategories();
+        
+//         // const products1 = await getAllProducts();
+
+//         res.render("products", {
+//             title: "Products page",
+//             products,
+//             categories,
+//             filters,
+//             resultCount: products.length
+//         });
+//     } catch (error) {
+//         console.error('Error loading products page:', error.message);
+//         res.render("products", {
+//             title: "Products page",
+//             products: [],
+//             categories: [],
+//             filters: {
+//                 search: '', name: '', category: undefined,
+//                 minPrice: undefined, maxPrice: undefined,
+//                 sort: 'id', direction: 'asc'
+//             },
+//             resultCount: 0
+//         });
+//     }
+// };
+
 export const products = async (req, res) => {
     try {
-        const filters = parseFilters(req.query);
-        const hasFilters = hasFilterValues(filters);
-        const products = hasFilters ? await getFilteredProducts(filters) : await getAllProducts();
         const categories = await getAllCategories();
-        
-        // const products1 = await getAllProducts();
-
         res.render("products", {
             title: "Products page",
-            products,
             categories,
-            filters,
-            resultCount: products.length
+            filters: {}, // or keep filters if needed for form defaults
         });
     } catch (error) {
         console.error('Error loading products page:', error.message);
         res.render("products", {
             title: "Products page",
-            products: [],
             categories: [],
-            filters: {
-                search: '', name: '', category: undefined,
-                minPrice: undefined, maxPrice: undefined,
-                sort: 'id', direction: 'asc'
-            },
-            resultCount: 0
+            filters: {}
         });
     }
 };
+
 
 export const productById = async (req, res) => {
     try {
@@ -111,26 +130,27 @@ export const productById = async (req, res) => {
     }
 };
 
-export const productsPage = async (req, res) => {
-    try {
-        const filters = parseFilters(req.query);
-        const products = hasFilterValues(filters)
-            ? await getFilteredProducts(filters)
-            : await getAllProducts();
+//WTF IS THIS?
+// export const productsPage = async (req, res) => {
+//     try {
+//         const filters = parseFilters(req.query);
+//         const products = hasFilterValues(filters)
+//             ? await getFilteredProducts(filters)
+//             : await getAllProducts();
 
-        const categories = await getAllCategories();
+//         const categories = await getAllCategories();
 
-        res.render('products', {
-            title: 'Products',
-            products,
-            categories,
-            filters
-        });
-    } catch (error) {
-        console.error('Error rendering products page:', error);
-        res.status(500).send('Internal Server Error');
-    }
-};
+//         res.render('products', {
+//             title: 'Products',
+//             products,
+//             categories,
+//             filters
+//         });
+//     } catch (error) {
+//         console.error('Error rendering products page:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// };
 
 export const login = (req, res) => {
     res.render("login", { title: "Login" });
