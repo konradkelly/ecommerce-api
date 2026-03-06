@@ -56,6 +56,6 @@ jobs:
             export DB_USER=${{ secrets.RDS_USER }}
             export DB_PASSWORD=${{ secrets.RDS_PASSWORD }}
             export DB_NAME=${{ secrets.RDS_DATABASE }}
-            cd /var/www/cascadia
+            cd ~/Cascadia-Gear-Co-op
             git pull origin main
             docker compose -f docker-compose.prod.yml up -d --build
