@@ -17,6 +17,10 @@ app.get('/js/header.js', (req, res) => {
 	res.sendFile(path.resolve('src/utility/header.js'));
 });
 
+app.get('/js/icon.js', (req, res) => {
+	res.sendFile(path.resolve('src/utility/icon.js'));
+});
+
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
