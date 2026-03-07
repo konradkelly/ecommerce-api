@@ -1,0 +1,136 @@
+{
+  "info": {
+    "_postman_id": "d43ec514-62dd-4ab1-b735-b76628ce4c24",
+    "name": "Cascadia Gear Co-op API",
+    "description": "This collection covers the **Cascadia Gear Co-op** product catalog API, running locally at `http://localhost:8001`. It is designed to explore and validate the core product-browsing endpoints, including both happy-path scenarios and edge cases.\n\n## Endpoints Covered\n\n- **Get Products** – Retrieve the full list of available products.\n    \n- **Get Product By Id** – Fetch a single product using its unique ID.\n    \n- **Filter By Category** – Filter products by a specific category (e.g., backpacks).\n    \n- **Filter Products by Price Range** – Narrow down products using `minPrice` and `maxPrice` query parameters.\n    \n- **Filter By Non-Existent Category** – Validates API behavior when filtering by a category that doesn't exist.\n    \n- **Get Non-Existent Product by ID** – Tests the API's error handling when requesting a product ID that doesn't exist.\n    \n- **Get Invalid Endpoint** – Verifies the API's response to requests made against an undefined route.\n    \n\n## Purpose\n\nThis collection is useful for **testing and validating** the product catalog API, covering both standard retrieval flows and boundary/error conditions to ensure the API handles edge cases gracefully.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43671523",
+    "_collection_link": "https://go.postman.co/collection/43671523-d43ec514-62dd-4ab1-b735-b76628ce4c24?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8001/api/products",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8001",
+          "path": [
+            "api",
+            "products"
+          ]
+        },
+        "description": "\\-Description: Retrieves the complete list of all products in the database with no filters applied\n\n\\-Path Parameters: None\n\n\\-Query Parameters: None\n\n\\-Returns: An array of all 21 product objects, each including id, name, description, price, category_id, category_name, image_url, featured, and created_at, along with a count and default filters metadata\n\n\\-Status Code: `200 OK`"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8001/api/products/33",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8001",
+          "path": [
+            "api",
+            "products",
+            "33"
+          ]
+        },
+        "description": "\\-Description: Retrieves a single product by its unique numeric ID\n\n\\-Path Parameters: `id=33`— a product ID\n\n\\-Query Parameters: None\n\n\\-Returns: A single product object containing id, name, description, price, category_id, image_url, featured, created_at, and category_name\n\n\\-Status Code: `200 OK`"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Non-Existent Product by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "\\-Description: Verifies that the API handles requests for a non-existent product gracefully by returning an appropriate error response.\n\n\\-Path Parameters: `id=999` — a product ID that does not exist in the catalog\n\n\\-Query Parameters: None\n\n\\-Returns: `404 Not Found` with an error message indicating the product could not be found"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter By Category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8001/api/products?category=backpacks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8001",
+          "path": [
+            "api",
+            "products"
+          ],
+          "query": [
+            {
+              "key": "category",
+              "value": "backpacks"
+            }
+          ]
+        },
+        "description": "\\-Description: Retrieves products filtered by a specific category (e.g., backpacks)\n\n\\-Path Parameters: None\n\n\\-Query Parameters: `category=backpacks`\n\n\\-Returns: Array of product objects matching the specified category\n\n\\-Status Code: `200 OK`"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter By Non-Existent Category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8001/api/products?category=robots",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8001",
+          "path": [
+            "api",
+            "products"
+          ],
+          "query": [
+            {
+              "key": "category",
+              "value": "robots"
+            }
+          ]
+        },
+        "description": "\\-Description: Attempts to retrieve products filtered by a category name that does not exist in the database (e.g., \"robots\")\n\n\\-Path Parameters: None\n\n\\-Query Parameters: `category=robots`\n\n\\-Returns: An empty products array with a count of 0, along with the applied filter metadata confirming the unmatched category value\n\n\\-Status Code: `200 OK`"
+      },
+      "response": []
+    },
+    {
+      "name": "Filter Products by Price Range",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "\\-Description: Retrieves products filtered by a minimum and maximum price range\n\n\\-Path Parameters: None\n\n\\-Query Parameters: `minPrice=50 maxPrice=200`\n\n\\-Returns: Array of product objects within the specified price range, along with applied filter metadata and total count\n\n\\-Status Code: `200 OK`"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Invalid Endpoint",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "\\-Description: Attempts to access a route that does not exist on the API (/api/products/invalid-endpoint)\n\n\\-Path Parameters: invalid-endpoint (non-existent segment)\n\n\\-Query Parameters: None\n\n\\-Returns: A JSON error object with the message \"Product not found\"\n\n\\-Status Code: `404 Not Found`"
+      },
+      "response": []
+    }
+  ]
+}
