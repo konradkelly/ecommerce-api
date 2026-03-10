@@ -24,6 +24,125 @@ Outdoor equipment and camping gear.
 - Camp Essentials
 - Accessories & Tools
 
+## Application Architecture
+
+The application follows an **MVC (Model-View-Controller)** pattern built on **Express.js** with **EJS** templating for server-side rendering and a separate JSON REST API layer.
+
+```
+src/
+├── controllers/       # Route handler logic (EJS and API controllers)
+├── model/             # Database queries (repository pattern)
+├── services/          # Business logic between controller and model
+├── routers/           # Express route definitions
+└── views/             # EJS templates for SSR pages
+```
+
+---
+
+## SSR Routes (Server-Side Rendered)
+
+These routes return fully rendered HTML pages using EJS templates.
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| `GET` | `/` | Landing page — displays a featured product and hero images |
+| `GET` | `/products` | Product listing page — displays all products with category filter UI |
+| `GET` | `/products/:id` | Product detail page — displays full details for a single product |
+| `GET` | `/login` | Login page (UI placeholder) |
+| `GET` | `/register` | Register page (UI placeholder) |
+
+---
+
+## API Endpoints
+
+All API routes return **JSON** responses.
+
+A full **Postman collection** for all endpoints is available:
+
+- **Published collection:** [View on Postman](https://konradkelly.postman.co/collection/43671523-d43ec514-62dd-4ab1-b735-b76628ce4c24?source=collection_link)
+- **Local file:** [postman/Cascadia Gear Co-op API.postman_collection.json](postman/Cascadia%20Gear%20Co-op%20API.postman_collection.json)
+
+Open the published link directly in Postman, or import the local file via **File → Import**.
+
+### `GET /api/products`
+
+Returns a list of products. Supports optional query parameter filtering.
+
+**Response shape:**
+```json
+{
+  "count": 12,
+  "filters": { ... },
+  "products": [ ... ]
+}
+```
+
+**Supported query parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `search` | `string` | Full-text search across product name, description, and category |
+| `name` | `string` | Partial match filter on product name |
+| `category` | `string` | Exact (case-insensitive) match on category name |
+| `minPrice` | `number` | Minimum price (inclusive) |
+| `maxPrice` | `number` | Maximum price (inclusive) |
+| `sort` | `string` | Sort field: `id` (default), `name`, or `price` |
+| `direction` | `string` | Sort direction: `asc` (default) or `desc` |
+
+**Example requests:**
+```
+GET /api/products
+GET /api/products?category=Tents&sort=price&direction=asc
+GET /api/products?search=sleeping&minPrice=50&maxPrice=300
+GET /api/products?name=daypack&sort=name
+```
+
+---
+
+### `GET /api/products/:id`
+
+Returns a single product by its ID, including its category name.
+
+**Responses:**
+- `200 OK` — product object
+- `404 Not Found` — `{ "error": "Product not found" }`
+
+---
+
+### `GET /data`
+
+Returns all products and a set of random images. Used for internal frontend data loading.
+
+**Response shape:**
+```json
+{
+  "products": [ ... ],
+  "images": [ ... ]
+}
+```
+
+---
+
+## How Filtering Works
+
+Filtering on `GET /api/products` is handled server-side through parameterized SQL queries.
+
+1. **Detection** — If any query parameter has a non-default value, the app routes the request through `getFilteredProducts()`. If no filters are provided, `getAllProducts()` is called instead (no extra processing overhead).
+
+2. **Search** (`search`) — Performs a `LIKE` match against the product `name`, `description`, and the associated `category` name simultaneously. Returns any product matching any of those fields.
+
+3. **Name** (`name`) — Performs a partial `LIKE` match scoped to the product `name` field only.
+
+4. **Category** (`category`) — Performs a case-insensitive exact match against the category name using `LOWER(c.name) = LOWER(?)`.
+
+5. **Price range** (`minPrice` / `maxPrice`) — Applies `p.price >= minPrice` and/or `p.price <= maxPrice` conditions. Either bound can be used independently.
+
+6. **Sorting** (`sort` + `direction`) — Results can be sorted by `id`, `name`, or `price` in either `asc` or `desc` direction. When sorting by a non-`id` column, `p.id ASC` is appended as a tiebreaker for stable ordering.
+
+7. **SQL injection safety** — All filter values are passed as parameterized query bindings (`?` placeholders). The sort column is resolved through an allowlist mapping (`price`, `name`, `id`) before being inserted into the query.
+
+---
+
 ## Prerequisites
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
