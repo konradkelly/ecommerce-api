@@ -107,7 +107,7 @@ INSERT INTO products (name, description, price, category_id, image_url, featured
     (SELECT id FROM categories WHERE name = 'Camp Essentials'),
     'https://www.rei.com/media/1892dfe9-e503-490f-975a-cf186af22f59.jpg?size=1500',
     TRUE
-),
+);
 
 (
     'TrailPro Camp Chair',
@@ -137,7 +137,6 @@ INSERT INTO products (name, description, price, category_id, image_url, featured
     'https://www.rei.com/media/2c349117-c9ca-4cad-8fd6-2a37bd34dc6c.jpg?size=1500',
     FALSE
 ),
-
 
 (
     'ThermoLite 20 Sleeping Bag',
@@ -207,6 +206,7 @@ INSERT INTO products (name, description, price, category_id, image_url, featured
     'https://www.rei.com/media/77f90e4f-6163-4e9b-8b40-d92643ab4cc5.jpg?size=1500',
     TRUE
 );
+
 
 
 INSERT INTO images (url, description) VALUES 
