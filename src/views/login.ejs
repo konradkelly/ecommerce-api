@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title><%= title %></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <script src="/js/header.js" defer></script>
+
+        <link rel="stylesheet" href="/css/landingpageStyle.css" />
+        <link rel="stylesheet" href="/css/styles.css" />
+    </head>
+
+    <body>
+        <div class = "container">
+            <!-- Username -->
+            <label for="username"><b>Username: </b></label>
+            <input type="text" placeholder="Username" name ="username" required>
+
+            <!-- Password -->
+            <label for="password"><b>Username: </b></label>
+            <input type="text" placeholder="Password" name ="password" required>
+
+            <!-- Button -->
+             <button class="button" type="submit">Create Account</button>
+        </div>
+
+        <%- include("./partials/footer") %>
+    </body>
+</html>
