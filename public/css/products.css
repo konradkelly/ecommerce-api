@@ -159,7 +159,17 @@ PRODUCTS PAGE STYLES & FILTERING
     background-color: #333;
     color: #fff;
     border-radius: 6px;
-    width: fit-content;
+    width: auto;
+}
+
+.product-to-cart {
+    display: flex;
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    background-color: rgb(0, 176, 176);
+    color: black;
+    border-radius: 6px;
+    justify-content: center;
 }
 
 .product-back-link {

@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <strong class="product-card-price">$${Number(product.price).toFixed(2)}</strong>
                 </div>
                 <a href="/products/${product.id}" class="product-card-details">View Details</a>
+                <a href="/products/${product.id}" class="product-to-cart">Add to Cart</a>
             </div>
         </article>
     `;
