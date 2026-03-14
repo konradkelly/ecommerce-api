@@ -5,6 +5,8 @@
 
 DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_preferred_categories;
 
 -- =============================================
 -- Categories Table
@@ -41,3 +43,37 @@ CREATE TABLE images (
 -- =============================================
 CREATE INDEX idx_products_category ON products(category_id);
 CREATE INDEX idx_products_featured ON products(featured);
+
+-- =============================================
+-- Users Table
+-- =============================================
+CREATE TABLE users (
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    username       VARCHAR(50)  NOT NULL UNIQUE,
+    email          VARCHAR(255) NOT NULL UNIQUE,
+    password_hash  VARCHAR(255),
+    role           VARCHAR(20)  NOT NULL DEFAULT 'customer',
+    first_name     VARCHAR(100),
+    last_name      VARCHAR(100),
+    phone          VARCHAR(20),
+    street         VARCHAR(255),
+    city           VARCHAR(100),
+    state          VARCHAR(2),
+    zip            VARCHAR(10),
+    loyalty_points INT          NOT NULL DEFAULT 0,
+    member_since   DATE,
+    google_id      VARCHAR(255),
+    discord_id     VARCHAR(255),
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =============================================
+-- User Preferred Categories (junction table)
+-- =============================================
+CREATE TABLE user_preferred_categories (
+    user_id     INT NOT NULL,
+    category_id INT NOT NULL,
+    PRIMARY KEY (user_id, category_id),
+    FOREIGN KEY (user_id)     REFERENCES users(id)      ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+);
