@@ -1,43 +1,9 @@
 import {
-    getAllProducts,
     getFeaturedProduct,
-    getFilteredProducts,
     getAllCategories,
     getProductById
 } from '../services/default.service.js';
 import imageService from '../services/imageService.js';
-
-const parseFilters = (query = {}) => {
-    const toNumber = (value) => {
-        if (value === undefined || value === null || value === '') {
-            return undefined;
-        }
-        const parsed = Number(value);
-        return Number.isFinite(parsed) ? parsed : undefined;
-    };
-
-    return {
-        search: typeof query.search === 'string' ? query.search.trim() : '',
-        name: typeof query.name === 'string' ? query.name.trim() : '',
-        category: typeof query.category === 'string'
-            ? query.category.trim()
-            : (typeof query.catagory === 'string' ? query.catagory.trim() : undefined),
-        minPrice: toNumber(query.minPrice),
-        maxPrice: toNumber(query.maxPrice),
-        sort: typeof query.sort === 'string' ? query.sort : 'id',
-        direction: query.direction === 'desc' ? 'desc' : 'asc'
-    };
-};
-
-const hasFilterValues = (filters) => Boolean(
-    filters.search ||
-    filters.name ||
-    filters.category ||
-    filters.minPrice !== undefined ||
-    filters.maxPrice !== undefined ||
-    filters.sort !== 'id' ||
-    filters.direction !== 'asc'
-);
 
 export const landingPage = async (req, res) => {
     try {
@@ -153,9 +119,23 @@ export const productById = async (req, res) => {
 // };
 
 export const login = (req, res) => {
-    res.render("login", { title: "Login" });
+    res.render("login", { title: "Login", authMessage: null });
 };
 
 export const register = (req, res) => {
-    res.render("register", { title: "Register" });
+    res.render("register", { title: "Register", authMessage: null });
+};
+
+export const loginSubmit = (req, res) => {
+    res.status(501).render("login", {
+        title: "Login",
+        authMessage: "Authentication is not enabled yet. UI is ready; backend auth is the next step."
+    });
+};
+
+export const registerSubmit = (req, res) => {
+    res.status(501).render("register", {
+        title: "Register",
+        authMessage: "Registration is not enabled yet. UI is ready; backend auth is the next step."
+    });
 };
