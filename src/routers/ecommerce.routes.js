@@ -10,9 +10,11 @@ router.get("/", ejsCtl.landingPage);
 
 // GET http://localhost:8001/login
 router.get('/login', ejsCtl.login);
+router.post('/login', ejsCtl.loginSubmit);
 
 // GET http://localhost:8001/register
 router.get('/register', ejsCtl.register);
+router.post('/register', ejsCtl.registerSubmit);
 
 // GET http://localhost:8001/products
 router.get('/products', ejsCtl.products);

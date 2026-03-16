@@ -1,0 +1,134 @@
+:root {
+	--auth-bg-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop');
+}
+
+.auth-page {
+	background-image:
+		linear-gradient(rgba(17, 24, 39, 0.52), rgba(17, 24, 39, 0.52)),
+		var(--auth-bg-image);
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	min-height: 100vh;
+}
+
+.auth-main {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem 1rem 1rem;
+}
+
+.auth-card {
+	width: 100%;
+	max-width: 460px;
+	margin: 1rem auto 0;
+	background: #ffffff;
+	border-radius: 16px;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+	padding: 1.5rem 1.4rem;
+}
+
+.auth-card h1 {
+	margin: 0;
+	font-size: 1.7rem;
+	color: #1f2937;
+}
+
+.auth-subtitle {
+	margin: 0.65rem 0 1.25rem;
+	color: #4b5563;
+	line-height: 1.45;
+}
+
+.auth-message {
+	margin: 0 0 1rem;
+	background: #fff7ed;
+	border: 1px solid #fdba74;
+	color: #7c2d12;
+	border-radius: 8px;
+	padding: 0.65rem 0.75rem;
+}
+
+.auth-form {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.auth-form label {
+	font-weight: 700;
+	color: #1f2937;
+}
+
+.auth-form input {
+	width: 100%;
+	padding: 0.7rem 0.75rem;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	font-size: 0.98rem;
+	box-sizing: border-box;
+}
+
+.auth-form input:focus {
+	outline: 2px solid #9ca3af;
+	outline-offset: 1px;
+}
+
+.auth-options {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0.35rem 0 0.4rem;
+	gap: 1rem;
+}
+
+.remember-me {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-weight: 500;
+	color: #374151;
+}
+
+.remember-me input {
+	width: auto;
+}
+
+.auth-button {
+	margin-top: 0.25rem;
+	border: none;
+	border-radius: 10px;
+	background-color: #111827;
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 0.98rem;
+	padding: 0.75rem 1rem;
+	cursor: pointer;
+}
+
+.auth-button:hover {
+	background-color: #1f2937;
+}
+
+.auth-alt-action {
+	margin: 1rem 0 0;
+	color: #4b5563;
+}
+
+.auth-link {
+	color: #111827;
+	font-weight: 700;
+	text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+	.auth-card {
+		border-radius: 12px;
+		padding: 1.25rem 1rem;
+	}
+
+	.auth-options {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}

@@ -1,33 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title><%= title %></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <script src="/js/header.js" defer></script>
+    <script src="/js/header.js" defer></script>
 
-        <link rel="stylesheet" href="/css/landingpageStyle.css" />
-        <link rel="stylesheet" href="/css/styles.css" />
-    </head>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/signin.css" />
+</head>
 
-    <body>
+<body class="auth-page">
+    <%- include("./partials/header") %>
 
-        <%- include("./partials/header") %>
-        
-        <div class = "container">
-            <!-- Username -->
-            <label for="username"><b>Username: </b></label>
-            <input type="text" placeholder="Create Username" name ="username" required>
+    <main class="auth-main">
+        <section class="auth-card" aria-labelledby="register-title">
+            <h1 id="register-title">Create Your Account</h1>
+            <p class="auth-subtitle">Set up your account to save favorites and checkout faster.</p>
+            <% if (authMessage) { %>
+                <p class="auth-message"><%= authMessage %></p>
+            <% } %>
 
-            <!-- Password -->
-            <label for="password"><b>Username: </b></label>
-            <input type="text" placeholder="Create Password" name ="password" required>
+            <form class="auth-form" method="post" action="/register" autocomplete="on">
+                <label for="username">Username</label>
+                <input id="username" type="text" name="username" placeholder="Choose a username" required />
 
-            <!-- Button -->
-             <button class="button" type="submit">Create Account</button>
-        </div>
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" placeholder="you@example.com" required />
 
-        <%- include("./partials/footer") %>
-    </body>
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" placeholder="Create a password" required />
+
+                <label for="confirmPassword">Confirm Password</label>
+                <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Re-enter your password" required />
+
+                <button class="auth-button" type="submit">Create Account</button>
+            </form>
+
+            <p class="auth-alt-action">
+                Already have an account?
+                <a href="/login" class="auth-link">Sign in</a>
+            </p>
+        </section>
+    </main>
+
+    <%- include("./partials/footer") %>
+</body>
 </html>
