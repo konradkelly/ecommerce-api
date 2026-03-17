@@ -2,14 +2,14 @@
 -- Seed Data: Categories and Products
 -- =============================================
 
-INSERT INTO categories (name) VALUES
+INSERT IGNORE INTO categories (name) VALUES
 ('Backpacks'),
 ('Tents'),
 ('Sleep Systems'),
 ('Camp Essentials'),
 ('Accessories & Tools');
 
-INSERT INTO products (name, description, price, category_id, image_url, featured) VALUES
+INSERT IGNORE INTO products (name, description, price, category_id, image_url, featured) VALUES
 (
     'Northface 45L Pack',
     'Lightweight 45L hiking pack with ventilated back panel and removable rain cover.',
@@ -107,7 +107,7 @@ INSERT INTO products (name, description, price, category_id, image_url, featured
     (SELECT id FROM categories WHERE name = 'Camp Essentials'),
     'https://www.rei.com/media/1892dfe9-e503-490f-975a-cf186af22f59.jpg?size=1500',
     TRUE
-);
+),
 
 (
     'TrailPro Camp Chair',
@@ -209,7 +209,7 @@ INSERT INTO products (name, description, price, category_id, image_url, featured
 
 
 
-INSERT INTO images (url, description) VALUES 
+INSERT IGNORE INTO images (url, description) VALUES 
 ('https://cdn.pixabay.com/photo/2020/07/01/20/32/mountain-5360913_1280.jpg', 'mountain, person, lake image'),
 ('https://cdn.pixabay.com/photo/2017/03/07/14/19/mountain-climbing-2124113_1280.jpg', 'mountain climbing, 5 dragon peak, the chubu sangaku national park, japan, snow, snow mountain, nature, summit, cold, wind, climbers, altitude, winter mountaineering, landscape, winter, mountain, peak image'),
 ('https://cdn.pixabay.com/photo/2020/10/11/09/04/peak-5645235_1280.jpg', 'peak, summit, mountains, nature, snow mountains, alps, alpine, mountain range, mountain landscape, mountainous, landscape, snow, clouds, switzerland image'),
@@ -222,35 +222,34 @@ INSERT INTO images (url, description) VALUES
 
 -- =============================================
 -- Seed Data: Users
--- NOTE: password_hash values are plaintext for seeding only.
--- Replace with bcrypt hashes once the auth system is implemented.
+-- password_hash values are bcrypt hashes (cost factor 10)
 -- =============================================
-INSERT INTO users (username, email, password_hash, role, first_name, last_name, phone, street, city, state, zip, loyalty_points, member_since) VALUES
-('mhendricks',  'maya.hendricks@email.com',   'pass123',      'customer', 'Maya',     'Hendricks',  '206-555-0142', '214 Pine Ridge Rd',      'Seattle',      'WA', '98101', 320,  '2024-03-15'),
-('jreyes',      'j.reyes@email.com',           'pass234',      'customer', 'Jordan',   'Reyes',      '503-555-0287', '88 Summit Ave',          'Portland',     'OR', '97201', 750,  '2023-07-22'),
-('rnguyen',     'riley.nguyen@email.com',      'pass345',      'customer', 'Riley',    'Nguyen',     '360-555-0394', '501 Glacier View Ln',    'Bellingham',   'WA', '98225', 115,  '2025-01-10'),
-('tpatel',      'tariq.patel@email.com',       'hike2026!',    'customer', 'Tariq',    'Patel',      '206-555-0318', '73 Fern Valley Rd',      'Tacoma',       'WA', '98402', 540,  '2023-11-04'),
-('kthompson',   'kai.thompson@email.com',      'rainier5!',    'customer', 'Kai',      'Thompson',   '253-555-0603', '48 Alder Creek Way',     'Puyallup',     'WA', '98371', 480,  '2024-02-28'),
-('evasquez',    'elena.vasquez@email.com',     'trailhead6',   'customer', 'Elena',    'Vasquez',    '541-555-0719', '137 Lava Rock Ln',       'Sisters',      'OR', '97759', 1350, '2022-04-16'),
-('lmarchand',   'leila.marchand@email.com',    'outdoors7',    'customer', 'Leila',    'Marchand',   '503-555-0451', '22 Ridgecrest Dr',       'Eugene',       'OR', '97401', 90,   '2025-04-18'),
-('dwoodson',    'd.woodson@email.com',         'camp4ever',    'customer', 'Devon',    'Woodson',    '360-555-0572', '340 Mossy Creek Ln',     'Olympia',      'WA', '98501', 1200, '2022-06-30'),
-('csantiago',   'carmen.santiago@email.com',   'trailrun9',    'customer', 'Carmen',   'Santiago',   '971-555-0634', '9 Spruce Hill Ave',      'Bend',         'OR', '97701', 275,  '2024-08-22'),
-('flarsson',    'felix.larsson@email.com',     'nordic10!',    'customer', 'Felix',    'Larsson',    '206-555-0789', '1801 Cedar Grove Blvd',  'Kirkland',     'WA', '98033', 60,   '2025-09-05'),
-('aking',       'amara.king@email.com',        'summit11',     'customer', 'Amara',    'King',       '253-555-0823', '57 Glacier Bluff Ct',    'Auburn',       'WA', '98001', 880,  '2023-02-14'),
-('bmoreau',     'b.moreau@email.com',          'basecamp12',   'customer', 'Baptiste', 'Moreau',     '503-555-0967', '410 Willow Creek Rd',    'Salem',        'OR', '97301', 430,  '2024-01-09'),
-('nchaudhary',  'nisha.chaudhary@email.com',   'alpine13!',    'customer', 'Nisha',    'Chaudhary',  '425-555-1042', '88 Hemlock Pass Dr',     'Redmond',      'WA', '98052', 155,  '2025-06-20'),
-('owilliams',   'owen.williams@email.com',     'daypack14',    'customer', 'Owen',     'Williams',   '360-555-1198', '225 Rainier View St',    'Mount Vernon', 'WA', '98273', 2050, '2021-10-03'),
-('sflores',     'sofia.flores@email.com',      'trailmix15',   'customer', 'Sofia',    'Flores',     '971-555-1254', '300 Juniper Ridge Rd',   'Medford',      'OR', '97501', 390,  '2024-05-11'),
-('motoole',     'marcus.otoole@email.com',     'packlight16',  'customer', 'Marcus',   'O''Toole',   '206-555-1367', '14 Pinecrest Loop',      'Everett',      'WA', '98201', 670,  '2023-09-28'),
-('yjensen',     'yuki.jensen@email.com',       'nordic17!',    'customer', 'Yuki',     'Jensen',     '503-555-1423', '99 Cascade Loop',        'Astoria',      'OR', '97103', 210,  '2024-11-17'),
-('abaker',      'aisha.baker@email.com',       'campfire18',   'customer', 'Aisha',    'Baker',      '360-555-1589', '762 Fir Tree Ln',        'Anacortes',    'WA', '98221', 985,  '2022-12-06'),
-('teacher',     'admin@cascadiagear.com',      'testpass',     'admin',    'Alex',     'Kowalski',   '425-555-0001', '1 Campus Blvd',          'Bellevue',     'WA', '98004', 0,    '2022-09-01'),
-('ta',          'ta@cascadiagear.com',         'password',     'admin',    'Sam',      'Okafor',     '425-555-0002', '1 Campus Blvd',          'Bellevue',     'WA', '98004', 0,    '2023-01-15');
+INSERT IGNORE INTO users (username, email, password_hash, role, first_name, last_name, phone, street, city, state, zip, loyalty_points, member_since) VALUES
+('mhendricks',  'maya.hendricks@email.com',   '$2b$10$RGttSDDRJh5HuLks4qPJ/OU/sA3uV8vIGgoXpHEa3SjGeIFQbp/2C', 'customer', 'Maya',     'Hendricks',  '206-555-0142', '214 Pine Ridge Rd',      'Seattle',      'WA', '98101', 320,  '2024-03-15'),
+('jreyes',      'j.reyes@email.com',           '$2b$10$YLGxNm6s/3pWEZQ6XdUNG.oN8.bStZmFuy0i2lt7JFOG1PrVonnXO', 'customer', 'Jordan',   'Reyes',      '503-555-0287', '88 Summit Ave',          'Portland',     'OR', '97201', 750,  '2023-07-22'),
+('rnguyen',     'riley.nguyen@email.com',      '$2b$10$dBz1mW8/MJgQrYrkQQFE1OjlbYyQcEt.ta4ksNFwtzXbpbjquxcFe', 'customer', 'Riley',    'Nguyen',     '360-555-0394', '501 Glacier View Ln',    'Bellingham',   'WA', '98225', 115,  '2025-01-10'),
+('tpatel',      'tariq.patel@email.com',       '$2b$10$RwdLNRM.CMnZwYDXPDe5Helge97OyYaTFH3qZ0hqOg6r35a6xWEKe', 'customer', 'Tariq',    'Patel',      '206-555-0318', '73 Fern Valley Rd',      'Tacoma',       'WA', '98402', 540,  '2023-11-04'),
+('kthompson',   'kai.thompson@email.com',      '$2b$10$Ph/1r0HJnN6dHIps1chHoeBXZkrWiF2YRNTTtn3RKv7JjXjhA/e76', 'customer', 'Kai',      'Thompson',   '253-555-0603', '48 Alder Creek Way',     'Puyallup',     'WA', '98371', 480,  '2024-02-28'),
+('evasquez',    'elena.vasquez@email.com',     '$2b$10$XN9F1SwXBvFT2f8M2nG7muSOBrj52gLPBs89tOmTAPWlYdJgxKlce', 'customer', 'Elena',    'Vasquez',    '541-555-0719', '137 Lava Rock Ln',       'Sisters',      'OR', '97759', 1350, '2022-04-16'),
+('lmarchand',   'leila.marchand@email.com',    '$2b$10$8VZmNl9jQd9C89UFvjBZHuDhymitKR7OmsyKsuMItqXoGYADVQIny', 'customer', 'Leila',    'Marchand',   '503-555-0451', '22 Ridgecrest Dr',       'Eugene',       'OR', '97401', 90,   '2025-04-18'),
+('dwoodson',    'd.woodson@email.com',         '$2b$10$SwF1JskrMPsOQITHfjL5q.hn2p26zefeWGvjKgaC/T4ZY2O0Muyqu', 'customer', 'Devon',    'Woodson',    '360-555-0572', '340 Mossy Creek Ln',     'Olympia',      'WA', '98501', 1200, '2022-06-30'),
+('csantiago',   'carmen.santiago@email.com',   '$2b$10$7vxNk8AWqdxUhcZ63690qOYbzZwuB6pdGr0sYyAXpKOcyRDQ8Itd2', 'customer', 'Carmen',   'Santiago',   '971-555-0634', '9 Spruce Hill Ave',      'Bend',         'OR', '97701', 275,  '2024-08-22'),
+('flarsson',    'felix.larsson@email.com',     '$2b$10$/zIaHhHSn5c6lAumW/unVO2L35GtBA4wcOnZf3q3zbPJMFTNEzhAS',  'customer', 'Felix',    'Larsson',    '206-555-0789', '1801 Cedar Grove Blvd',  'Kirkland',     'WA', '98033', 60,   '2025-09-05'),
+('aking',       'amara.king@email.com',        '$2b$10$xZPubuYw.EoC66B.5RSnDeoqSuqyQRvRkFpFjDkWnx0wNXx31PQtS',  'customer', 'Amara',    'King',       '253-555-0823', '57 Glacier Bluff Ct',    'Auburn',       'WA', '98001', 880,  '2023-02-14'),
+('bmoreau',     'b.moreau@email.com',          '$2b$10$Km4PWoAVEOxet3VoN/9M9.fYQMHqgCdnqNgLI7f5W5zUTEH/HF.fi', 'customer', 'Baptiste', 'Moreau',     '503-555-0967', '410 Willow Creek Rd',    'Salem',        'OR', '97301', 430,  '2024-01-09'),
+('nchaudhary',  'nisha.chaudhary@email.com',   '$2b$10$biFjatudbnXkM9srMZmxCO7vsm5aSmnR0qPxTN4R8TP9dH0VYJW56', 'customer', 'Nisha',    'Chaudhary',  '425-555-1042', '88 Hemlock Pass Dr',     'Redmond',      'WA', '98052', 155,  '2025-06-20'),
+('owilliams',   'owen.williams@email.com',     '$2b$10$oK75N9r6qZGvVlFCfjFPr.Ct.q6.cGFGl1Y2r8XElxoR4iQx04RF.', 'customer', 'Owen',     'Williams',   '360-555-1198', '225 Rainier View St',    'Mount Vernon', 'WA', '98273', 2050, '2021-10-03'),
+('sflores',     'sofia.flores@email.com',      '$2b$10$KzZmW/t5sRvRdirwPB/wH.lbPjQN/sPJTnT8FjKjvZdIcSqWVdnIC', 'customer', 'Sofia',    'Flores',     '971-555-1254', '300 Juniper Ridge Rd',   'Medford',      'OR', '97501', 390,  '2024-05-11'),
+('motoole',     'marcus.otoole@email.com',     '$2b$10$5r2WLjtJyGXaWh20xTumHO8puN2e4jWwoT.OqhGpUQec.cRaifeZ2', 'customer', 'Marcus',   'O''Toole',   '206-555-1367', '14 Pinecrest Loop',      'Everett',      'WA', '98201', 670,  '2023-09-28'),
+('yjensen',     'yuki.jensen@email.com',       '$2b$10$NMdq8pO0fky1lM996m4CuewTCvVM9FKg3TxLyJiMegMssChnBMNwO', 'customer', 'Yuki',     'Jensen',     '503-555-1423', '99 Cascade Loop',        'Astoria',      'OR', '97103', 210,  '2024-11-17'),
+('abaker',      'aisha.baker@email.com',       '$2b$10$7ax4hGxXF.btIvF13x.kxOLmaGNm05IEiCxB3.keWUoc7VBT9XtLa', 'customer', 'Aisha',    'Baker',      '360-555-1589', '762 Fir Tree Ln',        'Anacortes',    'WA', '98221', 985,  '2022-12-06'),
+('teacher',     'admin@cascadiagear.com',      '$2b$10$OxVp713jLs3kRUuKnxhOMO2XvqMGMjbk483N7Kb61ENSHzZ0.zPg6', 'admin',    'Alex',     'Kowalski',   '425-555-0001', '1 Campus Blvd',          'Bellevue',     'WA', '98004', 0,    '2022-09-01'),
+('ta',          'ta@cascadiagear.com',         '$2b$10$DLd04d2jLT1n62KLIhzZ1.x/wFOiThkr3ymjUUxzjyxLbnyeC76A6', 'admin',    'Sam',      'Okafor',     '425-555-0002', '1 Campus Blvd',          'Bellevue',     'WA', '98004', 0,    '2023-01-15');
 
 -- =============================================
 -- Seed Data: User Preferred Categories
 -- =============================================
-INSERT INTO user_preferred_categories (user_id, category_id) VALUES
+INSERT IGNORE INTO user_preferred_categories (user_id, category_id) VALUES
 -- mhendricks: Backpacks, Sleep Systems
 ((SELECT id FROM users WHERE username = 'mhendricks'), (SELECT id FROM categories WHERE name = 'Backpacks')),
 ((SELECT id FROM users WHERE username = 'mhendricks'), (SELECT id FROM categories WHERE name = 'Sleep Systems')),
