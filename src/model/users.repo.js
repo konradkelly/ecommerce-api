@@ -1,282 +1,149 @@
-export default [
-    {
-        id: 1,
-        username: "mhendricks",
-        password: "pass123",
-        role: "customer",
-        firstName: "Maya",
-        lastName: "Hendricks",
-        email: "maya.hendricks@email.com",
-        phone: "206-555-0142",
-        address: { street: "214 Pine Ridge Rd", city: "Seattle", state: "WA", zip: "98101" },
-        loyaltyPoints: 320,
-        memberSince: "2024-03-15",
-        preferredCategories: ["Backpacks", "Sleep Systems"]
-    },
-    {
-        id: 2,
-        username: "jreyes",
-        password: "pass234",
-        role: "customer",
-        firstName: "Jordan",
-        lastName: "Reyes",
-        email: "j.reyes@email.com",
-        phone: "503-555-0287",
-        address: { street: "88 Summit Ave", city: "Portland", state: "OR", zip: "97201" },
-        loyaltyPoints: 750,
-        memberSince: "2023-07-22",
-        preferredCategories: ["Tents", "Camp Essentials"]
-    },
-    {
-        id: 3,
-        username: "rnguyen",
-        password: "pass345",
-        role: "customer",
-        firstName: "Riley",
-        lastName: "Nguyen",
-        email: "riley.nguyen@email.com",
-        phone: "360-555-0394",
-        address: { street: "501 Glacier View Ln", city: "Bellingham", state: "WA", zip: "98225" },
-        loyaltyPoints: 115,
-        memberSince: "2025-01-10",
-        preferredCategories: ["Accessories & Tools"]
-    },
-    {
-        id: 4,
-        username: "tpatel",
-        password: "hike2026!",
-        role: "customer",
-        firstName: "Tariq",
-        lastName: "Patel",
-        email: "tariq.patel@email.com",
-        phone: "206-555-0318",
-        address: { street: "73 Fern Valley Rd", city: "Tacoma", state: "WA", zip: "98402" },
-        loyaltyPoints: 540,
-        memberSince: "2023-11-04",
-        preferredCategories: ["Tents", "Backpacks"]
-    },
-    {
-        id: 5,
-        username: "kthompson",
-        password: "rainier5!",
-        role: "customer",
-        firstName: "Kai",
-        lastName: "Thompson",
-        email: "kai.thompson@email.com",
-        phone: "253-555-0603",
-        address: { street: "48 Alder Creek Way", city: "Puyallup", state: "WA", zip: "98371" },
-        loyaltyPoints: 480,
-        memberSince: "2024-02-28",
-        preferredCategories: ["Camp Essentials", "Backpacks"]
-    },
-    {
-        id: 6,
-        username: "evasquez",
-        password: "trailhead6",
-        role: "customer",
-        firstName: "Elena",
-        lastName: "Vasquez",
-        email: "elena.vasquez@email.com",
-        phone: "541-555-0719",
-        address: { street: "137 Lava Rock Ln", city: "Sisters", state: "OR", zip: "97759" },
-        loyaltyPoints: 1350,
-        memberSince: "2022-04-16",
-        preferredCategories: ["Tents", "Sleep Systems", "Accessories & Tools"]
-    },
-    {
-        id: 7,
-        username: "lmarchand",
-        password: "outdoors7",
-        role: "customer",
-        firstName: "Leila",
-        lastName: "Marchand",
-        email: "leila.marchand@email.com",
-        phone: "503-555-0451",
-        address: { street: "22 Ridgecrest Dr", city: "Eugene", state: "OR", zip: "97401" },
-        loyaltyPoints: 90,
-        memberSince: "2025-04-18",
-        preferredCategories: ["Sleep Systems"]
-    },
-    {
-        id: 8,
-        username: "dwoodson",
-        password: "camp4ever",
-        role: "customer",
-        firstName: "Devon",
-        lastName: "Woodson",
-        email: "d.woodson@email.com",
-        phone: "360-555-0572",
-        address: { street: "340 Mossy Creek Ln", city: "Olympia", state: "WA", zip: "98501" },
-        loyaltyPoints: 1200,
-        memberSince: "2022-06-30",
-        preferredCategories: ["Camp Essentials", "Accessories & Tools"]
-    },
-    {
-        id: 9,
-        username: "csantiago",
-        password: "trailrun9",
-        role: "customer",
-        firstName: "Carmen",
-        lastName: "Santiago",
-        email: "carmen.santiago@email.com",
-        phone: "971-555-0634",
-        address: { street: "9 Spruce Hill Ave", city: "Bend", state: "OR", zip: "97701" },
-        loyaltyPoints: 275,
-        memberSince: "2024-08-22",
-        preferredCategories: ["Backpacks", "Accessories & Tools"]
-    },
-    {
-        id: 10,
-        username: "flarsson",
-        password: "nordic10!",
-        role: "customer",
-        firstName: "Felix",
-        lastName: "Larsson",
-        email: "felix.larsson@email.com",
-        phone: "206-555-0789",
-        address: { street: "1801 Cedar Grove Blvd", city: "Kirkland", state: "WA", zip: "98033" },
-        loyaltyPoints: 60,
-        memberSince: "2025-09-05",
-        preferredCategories: ["Sleep Systems", "Tents"]
-    },
-    {
-        id: 11,
-        username: "aking",
-        password: "summit11",
-        role: "customer",
-        firstName: "Amara",
-        lastName: "King",
-        email: "amara.king@email.com",
-        phone: "253-555-0823",
-        address: { street: "57 Glacier Bluff Ct", city: "Auburn", state: "WA", zip: "98001" },
-        loyaltyPoints: 880,
-        memberSince: "2023-02-14",
-        preferredCategories: ["Tents", "Sleep Systems", "Camp Essentials"]
-    },
-    {
-        id: 12,
-        username: "bmoreau",
-        password: "basecamp12",
-        role: "customer",
-        firstName: "Baptiste",
-        lastName: "Moreau",
-        email: "b.moreau@email.com",
-        phone: "503-555-0967",
-        address: { street: "410 Willow Creek Rd", city: "Salem", state: "OR", zip: "97301" },
-        loyaltyPoints: 430,
-        memberSince: "2024-01-09",
-        preferredCategories: ["Backpacks", "Camp Essentials"]
-    },
-    {
-        id: 13,
-        username: "nchaudhary",
-        password: "alpine13!",
-        role: "customer",
-        firstName: "Nisha",
-        lastName: "Chaudhary",
-        email: "nisha.chaudhary@email.com",
-        phone: "425-555-1042",
-        address: { street: "88 Hemlock Pass Dr", city: "Redmond", state: "WA", zip: "98052" },
-        loyaltyPoints: 155,
-        memberSince: "2025-06-20",
-        preferredCategories: ["Accessories & Tools"]
-    },
-    {
-        id: 14,
-        username: "owilliams",
-        password: "daypack14",
-        role: "customer",
-        firstName: "Owen",
-        lastName: "Williams",
-        email: "owen.williams@email.com",
-        phone: "360-555-1198",
-        address: { street: "225 Rainier View St", city: "Mount Vernon", state: "WA", zip: "98273" },
-        loyaltyPoints: 2050,
-        memberSince: "2021-10-03",
-        preferredCategories: ["Backpacks", "Tents", "Sleep Systems"]
-    },
-    {
-        id: 15,
-        username: "sflores",
-        password: "trailmix15",
-        role: "customer",
-        firstName: "Sofia",
-        lastName: "Flores",
-        email: "sofia.flores@email.com",
-        phone: "971-555-1254",
-        address: { street: "300 Juniper Ridge Rd", city: "Medford", state: "OR", zip: "97501" },
-        loyaltyPoints: 390,
-        memberSince: "2024-05-11",
-        preferredCategories: ["Camp Essentials", "Sleep Systems"]
-    },
-    {
-        id: 16,
-        username: "motoole",
-        password: "packlight16",
-        role: "customer",
-        firstName: "Marcus",
-        lastName: "O'Toole",
-        email: "marcus.otoole@email.com",
-        phone: "206-555-1367",
-        address: { street: "14 Pinecrest Loop", city: "Everett", state: "WA", zip: "98201" },
-        loyaltyPoints: 670,
-        memberSince: "2023-09-28",
-        preferredCategories: ["Accessories & Tools", "Backpacks"]
-    },
-    {
-        id: 17,
-        username: "yjensen",
-        password: "nordic17!",
-        role: "customer",
-        firstName: "Yuki",
-        lastName: "Jensen",
-        email: "yuki.jensen@email.com",
-        phone: "503-555-1423",
-        address: { street: "99 Cascade Loop", city: "Astoria", state: "OR", zip: "97103" },
-        loyaltyPoints: 210,
-        memberSince: "2024-11-17",
-        preferredCategories: ["Tents", "Accessories & Tools"]
-    },
-    {
-        id: 18,
-        username: "abaker",
-        password: "campfire18",
-        role: "customer",
-        firstName: "Aisha",
-        lastName: "Baker",
-        email: "aisha.baker@email.com",
-        phone: "360-555-1589",
-        address: { street: "762 Fir Tree Ln", city: "Anacortes", state: "WA", zip: "98221" },
-        loyaltyPoints: 985,
-        memberSince: "2022-12-06",
-        preferredCategories: ["Sleep Systems", "Tents", "Backpacks"]
-    },
-    {
-        id: 19,
-        username: "teacher",
-        password: "testpass",
-        role: "admin",
-        firstName: "Alex",
-        lastName: "Kowalski",
-        email: "admin@cascadiagear.com",
-        phone: "425-555-0001",
-        address: { street: "1 Campus Blvd", city: "Bellevue", state: "WA", zip: "98004" },
-        loyaltyPoints: 0,
-        memberSince: "2022-09-01",
-        preferredCategories: []
-    },
-    {
-        id: 20,
-        username: "ta",
-        password: "password",
-        role: "admin",
-        firstName: "Sam",
-        lastName: "Okafor",
-        email: "ta@cascadiagear.com",
-        phone: "425-555-0002",
-        address: { street: "1 Campus Blvd", city: "Bellevue", state: "WA", zip: "98004" },
-        loyaltyPoints: 0,
-        memberSince: "2023-01-15",
-        preferredCategories: []
-    }
-];
+import { getDbPool } from './db.connect.js';
+
+export const findAllUsers = async () => {
+	const db = getDbPool();
+	const [rows] = await db.query(`
+		SELECT id, username, email, role, first_name, last_name,
+		       phone, street, city, state, zip,
+		       loyalty_points, member_since, created_at
+		FROM users
+		ORDER BY id ASC
+	`);
+	return rows;
+};
+
+export const findUserById = async (id) => {
+	const db = getDbPool();
+	const [rows] = await db.query(`
+		SELECT id, username, email, password_hash, role, first_name, last_name,
+		       phone, street, city, state, zip,
+		       loyalty_points, member_since, google_id, discord_id, created_at
+		FROM users
+		WHERE id = ?
+	`, [id]);
+	return rows[0] || null;
+};
+
+export const findUserByEmail = async (email) => {
+	const db = getDbPool();
+	const [rows] = await db.query(`
+		SELECT id, username, email, password_hash, role, first_name, last_name,
+		       phone, street, city, state, zip,
+		       loyalty_points, member_since, google_id, discord_id, created_at
+		FROM users
+		WHERE email = ?
+	`, [email]);
+	return rows[0] || null;
+};
+
+export const findUserByUsername = async (username) => {
+	const db = getDbPool();
+	const [rows] = await db.query(`
+		SELECT id, username, email, password_hash, role, first_name, last_name,
+		       phone, street, city, state, zip,
+		       loyalty_points, member_since, google_id, discord_id, created_at
+		FROM users
+		WHERE username = ?
+	`, [username]);
+	return rows[0] || null;
+};
+
+export const createLocalUser = async ({ username, email, passwordHash, firstName, lastName, phone }) => {
+    const db = getDbPool();
+    const [result] = await db.query(
+        `INSERT INTO users (username, email, password_hash, first_name, last_name, phone, member_since)
+         VALUES (?, ?, ?, ?, ?, ?, CURDATE())`,
+        [username, email, passwordHash, firstName, lastName, phone]
+    );
+    return result.insertId;
+};
+
+export const findUserPreferredCategories = async (userId) => {
+	const db = getDbPool();
+	const [rows] = await db.query(`
+		SELECT c.id, c.name
+		FROM user_preferred_categories upc
+		JOIN categories c ON c.id = upc.category_id
+		WHERE upc.user_id = ?
+		ORDER BY c.name ASC
+	`, [userId]);
+	return rows;
+};
+
+export const findOrCreateOAuthUser = async (email, provider, providerId) => {
+	const db = getDbPool();
+	// whitelist check
+	const PROVIDER_COLUMNS = { google: 'google_id', discord: 'discord_id' };
+	const providerColumn = PROVIDER_COLUMNS[provider];
+
+	// Check if user exists by provider ID
+	const [existing] = await db.query(
+		`SELECT * FROM users WHERE ${providerColumn} = ?`,
+		[providerId]
+	);
+	if (existing.length > 0) return existing[0];
+
+	// Check if user exists by email (link accounts)
+	const [byEmail] = await db.query(
+		'SELECT * FROM users WHERE email = ?',
+		[email]
+	);
+	if (byEmail.length > 0) {
+		await db.query(
+			`UPDATE users SET ${providerColumn} = ? WHERE id = ?`,
+			[providerId, byEmail[0].id]
+		);
+		return { ...byEmail[0], [providerColumn]: providerId };
+	}
+
+	// Create new user
+	const username = email.split('@')[0];
+	const [result] = await db.query(
+		`INSERT INTO users (username, email, ${providerColumn}) VALUES (?, ?, ?)`,
+		[username, email, providerId]
+	);
+	return findUserById(result.insertId);
+};
+
+export const updateUserProfile = async (id, { firstName, lastName, phone, street, city, state, zip }) => {
+    const db = getDbPool();
+    const [result] = await db.query(
+        `UPDATE users SET first_name = ?, last_name = ?, phone = ?, 
+         street = ?, city = ?, state = ?, zip = ? WHERE id = ?`,
+        [firstName, lastName, phone, street, city, state, zip, id]
+    );
+    return result.affectedRows > 0;
+};
+
+export const updatePassword = async (id, passwordHash) => {
+    const db = getDbPool();
+    const [result] = await db.query(
+        'UPDATE users SET password_hash = ? WHERE id = ?',
+        [passwordHash, id]
+    );
+    return result.affectedRows > 0;
+};
+
+export const updateLoyaltyPoints = async (id, points) => {
+    const db = getDbPool();
+    const [result] = await db.query(
+        'UPDATE users SET loyalty_points = ? WHERE id = ?',
+        [points, id]
+    );
+    return result.affectedRows > 0;
+};
+
+export const updateUserRole = async (id, role) => {
+    const db = getDbPool();
+    const [result] = await db.query(
+        'UPDATE users SET role = ? WHERE id = ?',
+        [role, id]
+    );
+    return result.affectedRows > 0;
+	};
+	
+export const deleteUser = async (id) => {
+    const db = getDbPool();
+    const [result] = await db.query('DELETE FROM users WHERE id = ?', [id]);
+    return result.affectedRows > 0;
+};
