@@ -18,7 +18,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build and start Docker Compose services
-        run: docker compose -f docker-compose.dev.yml up --build -d
+        run: docker compose -f docker-compose.prod.yml up --build -d
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
@@ -28,7 +28,7 @@ jobs:
       #   run: npm test
 
       - name: Stop Docker Compose services
-        run: docker compose -f docker-compose.dev.yml down
+        run: docker compose -f docker-compose.prod.yml down
 
   deploy:
     runs-on: ubuntu-latest
