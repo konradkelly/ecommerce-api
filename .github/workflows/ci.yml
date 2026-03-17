@@ -17,18 +17,11 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and start Docker Compose services
-        run: docker compose -f docker-compose.prod.yml up --build -d
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      - name: Build Docker image
+        run: docker build -t cascadia-gear-co-op .
 
       # - name: Run tests (to be implemented)
       #   run: npm test
-
-      - name: Stop Docker Compose services
-        run: docker compose -f docker-compose.prod.yml down
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,13 +36,20 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            export DB_HOST=${{ secrets.RDS_HOST }}
-            export DB_USER=${{ secrets.RDS_USER }}
-            export DB_PASSWORD=${{ secrets.RDS_PASSWORD }}
-            export DB_NAME=${{ secrets.RDS_DATABASE }}
-            export REDIS_HOST=redis
-            export REDIS_PORT=6379
-            export SESSION_SECRET=${{ secrets.SESSION_SECRET }}
             cd ~/Cascadia-Gear-Co-op
             git pull origin main
-            docker compose -f docker-compose.prod.yml up -d --build
+
+            cat > .env << 'ENVEOF'
+            NODE_ENV=production
+            PORT=8001
+            DB_HOST=${{ secrets.RDS_HOST }}
+            DB_PORT=3306
+            DB_USER=${{ secrets.RDS_USER }}
+            DB_PASSWORD=${{ secrets.RDS_PASSWORD }}
+            DB_NAME=${{ secrets.RDS_DATABASE }}
+            REDIS_HOST=redis
+            REDIS_PORT=6379
+            SESSION_SECRET=${{ secrets.SESSION_SECRET }}
+            ENVEOF
+
+            docker compose -f docker-compose.prod.yml up -d --build --force-recreate
