@@ -1,35 +1,26 @@
 import { Router } from "express";
 import * as ejsCtl from '../controllers/ejs.controller.js';
 import * as apiCtl from '../controllers/api.controller.js';
+import { requireAuth, requireAuthApi } from '../middleware/auth.middleware.js';
 
 const router = Router();
 
-// --- HTML / EJS rendered routes ---
-// GET http://localhost:8001/
-router.get("/", ejsCtl.landingPage);
-
-// GET http://localhost:8001/login
+// --- Public routes (no auth required) ---
+router.get("/", ejsCtl.home);
+router.get('/landing', ejsCtl.landingPage);
 router.get('/login', ejsCtl.login);
 router.post('/login', ejsCtl.loginSubmit);
-
-// GET http://localhost:8001/register
 router.get('/register', ejsCtl.register);
 router.post('/register', ejsCtl.registerSubmit);
 
-// GET http://localhost:8001/products
-router.get('/products', ejsCtl.products);
+// --- Protected HTML routes ---
+router.post('/logout', requireAuth, ejsCtl.logout);
+router.get('/products', requireAuth, ejsCtl.products);
+router.get('/products/:id', requireAuth, ejsCtl.productById);
 
-// GET http://localhost:8001/products/:id
-router.get('/products/:id', ejsCtl.productById);
-
-// --- JSON API routes ---
-// GET http://localhost:8001/data
-router.get('/data', apiCtl.getData);
-
-// GET http://localhost:8001/api/products
-router.get('/api/products', apiCtl.getProductsApi);
-
-// GET http://localhost:8001/api/products/:id
-router.get('/api/products/:id', apiCtl.getProductByIdApi);
+// --- Protected JSON API routes ---
+router.get('/data', requireAuthApi, apiCtl.getData);
+router.get('/api/products', requireAuthApi, apiCtl.getProductsApi);
+router.get('/api/products/:id', requireAuthApi, apiCtl.getProductByIdApi);
 
 export default router;
