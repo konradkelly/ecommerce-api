@@ -5,7 +5,7 @@ import {
 	findFeaturedProduct,
 	findAllCategories,
 	findProductById
-} from '../model/default.repo.js';
+} from '../model/products.repo.js';
 
 export const getAllProducts = () => findAllProducts();
 
