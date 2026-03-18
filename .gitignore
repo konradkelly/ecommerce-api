@@ -10,6 +10,5 @@ src/scripts/gen-hashes.mjs
 AUTH_PLAN.md
 BRANCHING_STRATEGY.md
 **/.terraform/
-products.repo.js
 create-users-table.sql
 gen-hashes.mjs
