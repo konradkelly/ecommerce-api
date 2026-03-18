@@ -3,16 +3,19 @@
 -- Drops existing tables and recreates them
 -- =============================================
 
-DROP TABLE IF EXISTS products CASCADE;
-DROP TABLE IF EXISTS categories CASCADE;
-DROP TABLE IF EXISTS users;
+SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS user_preferred_categories;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS images;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS categories;
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- =============================================
 -- Categories Table
 -- =============================================
 CREATE TABLE categories (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -21,14 +24,15 @@ CREATE TABLE categories (
 -- Products Table
 -- =============================================
 CREATE TABLE products (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     price NUMERIC(10,2) NOT NULL CHECK (price >= 0),
-    category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
+    category_id INT,
     image_url VARCHAR(255),
     featured BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 
 CREATE TABLE images (
