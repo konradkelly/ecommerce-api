@@ -4,6 +4,8 @@ import {
     getProductById
 } from '../services/default.service.js';
 import imageService from '../services/imageService.js';
+import passport from '../../auth/passport.js';
+import { registerUser } from '../services/user.service.js';
 
 export const landingPage = async (req, res) => {
     try {
@@ -118,7 +120,12 @@ export const productById = async (req, res) => {
 //     }
 // };
 
+export const home = (req, res) => {
+    res.redirect(req.isAuthenticated() ? '/products' : '/landing');
+};
+
 export const login = (req, res) => {
+    if (req.isAuthenticated()) return res.redirect('/products');
     res.render("login", { title: "Login", authMessage: null });
 };
 
@@ -126,16 +133,46 @@ export const register = (req, res) => {
     res.render("register", { title: "Register", authMessage: null });
 };
 
-export const loginSubmit = (req, res) => {
-    res.status(501).render("login", {
-        title: "Login",
-        authMessage: "Authentication is not enabled yet. UI is ready; backend auth is the next step."
-    });
+export const loginSubmit = (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) return next(err);
+        if (!user) {
+            return res.render('login', {
+                title: 'Login',
+                authMessage: info?.message || 'Invalid username or password'
+            });
+        }
+        req.logIn(user, (err) => {
+            if (err) return next(err);
+            res.redirect('/products');
+        });
+    })(req, res, next);
 };
 
-export const registerSubmit = (req, res) => {
-    res.status(501).render("register", {
-        title: "Register",
-        authMessage: "Registration is not enabled yet. UI is ready; backend auth is the next step."
+export const registerSubmit = async (req, res) => {
+    const { username, email, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+        return res.render('register', {
+            title: 'Register',
+            authMessage: 'Passwords do not match'
+        });
+    }
+
+    try {
+        await registerUser({ username, email, password });
+        res.redirect('/');
+    } catch (err) {
+        res.render('register', {
+            title: 'Register',
+            authMessage: err.message || 'Registration failed'
+        });
+    }
+};
+
+export const logout = (req, res, next) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        res.redirect('/');
     });
 };
