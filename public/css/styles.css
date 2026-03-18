@@ -100,6 +100,19 @@ Header & Footer
     background-color: #777;
 }
 
+.nav-logout-form {
+    display: inline;
+}
+
+.nav-logout-btn {
+    background: none;
+    border: none;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+}
+
 .header-actions {
     display: flex;
     gap: 1rem;
