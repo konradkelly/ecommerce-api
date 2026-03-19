@@ -7,20 +7,22 @@ services:
     env_file:
       - .env
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - PORT=8001
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - DB_NAME=${MYSQL_DATABASE}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - mysql
+      - redis
     networks:
       - ecommerce-network
     restart: unless-stopped
-    # volumes:
-    #   - .:/app
     command: npm run dev
     develop:
       watch:
@@ -44,8 +46,6 @@ services:
             - node_modules/
         - action: rebuild
           path: package.json
-    
-
   mysql:
     image: mysql:8.0
     container_name: ecommerce-mysql
@@ -59,7 +59,14 @@ services:
     networks:
       - ecommerce-network
     restart: unless-stopped
-
+  redis:
+    image: redis:7-alpine
+    container_name: ecommerce-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ecommerce-network
+    restart: unless-stopped
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: ecommerce-phpmyadmin
@@ -73,10 +80,8 @@ services:
     networks:
       - ecommerce-network
     restart: unless-stopped
-
 networks:
   ecommerce-network:
     driver: bridge
-
 volumes:
   mysql-data:

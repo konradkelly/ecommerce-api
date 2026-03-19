@@ -17,10 +17,18 @@ router.post('/register', ejsCtl.registerSubmit);
 router.post('/logout', requireAuth, ejsCtl.logout);
 router.get('/products', requireAuth, ejsCtl.products);
 router.get('/products/:id', requireAuth, ejsCtl.productById);
+router.get('/cart', requireAuth, ejsCtl.cart);
 
 // --- Protected JSON API routes ---
 router.get('/data', requireAuthApi, apiCtl.getData);
 router.get('/api/products', requireAuthApi, apiCtl.getProductsApi);
 router.get('/api/products/:id', requireAuthApi, apiCtl.getProductByIdApi);
+
+// --- Shopping Cart API routes ---
+router.get('/api/cart', requireAuthApi, apiCtl.getCart);
+router.post('/api/cart/add', requireAuthApi, apiCtl.addToCart);
+router.delete('/api/cart/items/:cartItemId', requireAuthApi, apiCtl.removeFromCart);
+router.put('/api/cart/items/:cartItemId', requireAuthApi, apiCtl.updateCartItem);
+router.delete('/api/cart', requireAuthApi, apiCtl.clearCart);
 
 export default router;

@@ -4,6 +4,7 @@ import {
     getProductById
 } from '../services/default.service.js';
 import imageService from '../services/imageService.js';
+import * as cartService from '../services/cart.service.js';
 
 const parseFilters = (query = {}) => {
     const toNumber = (value) => {
@@ -75,5 +76,86 @@ export const getProductByIdApi = async (req, res) => {
     } catch (error) {
         console.error('Error fetching product by ID:', error.message);
         res.status(500).json({ error: 'Failed to fetch product by ID' });
+    }
+};
+
+// =============================================
+// Cart API Endpoints
+// =============================================
+
+export const getCart = async (req, res) => {
+    try {
+        const cart = await cartService.getCart(req.user.id);
+        res.status(200).json(cart);
+    } catch (error) {
+        console.error('Error fetching cart:', error.message);
+        res.status(500).json({ error: 'Failed to fetch cart' });
+    }
+};
+
+export const addToCart = async (req, res) => {
+    try {
+        const { productId, quantity = 1 } = req.body;
+        
+        if (!productId) {
+            return res.status(400).json({ error: 'Product ID is required' });
+        }
+        
+        if (quantity <= 0) {
+            return res.status(400).json({ error: 'Quantity must be greater than 0' });
+        }
+        
+        const cart = await cartService.addToCart(req.user.id, productId, quantity);
+        res.status(200).json({ success: true, cart });
+    } catch (error) {
+        console.error('Error adding to cart:', error.message);
+        res.status(500).json({ error: 'Failed to add item to cart' });
+    }
+};
+
+export const removeFromCart = async (req, res) => {
+    try {
+        const { cartItemId } = req.params;
+        
+        if (!cartItemId) {
+            return res.status(400).json({ error: 'Cart item ID is required' });
+        }
+        
+        const cart = await cartService.removeFromCart(req.user.id, cartItemId);
+        res.status(200).json({ success: true, cart });
+    } catch (error) {
+        console.error('Error removing from cart:', error.message);
+        res.status(500).json({ error: 'Failed to remove item from cart' });
+    }
+};
+
+export const updateCartItem = async (req, res) => {
+    try {
+        const { cartItemId } = req.params;
+        const { quantity } = req.body;
+        
+        if (!cartItemId) {
+            return res.status(400).json({ error: 'Cart item ID is required' });
+        }
+        
+        if (!quantity || quantity <= 0) {
+            return res.status(400).json({ error: 'Quantity must be greater than 0' });
+        }
+        
+        const cart = await cartService.updateCartItem(req.user.id, cartItemId, quantity);
+        res.status(200).json({ success: true, cart });
+    } catch (error) {
+        console.error('Error updating cart item:', error.message);
+        res.status(500).json({ error: 'Failed to update cart item' });
+    }
+};
+
+export const clearCart = async (req, res) => {
+    try {
+        const cart = await cartService.clearCart(req.user.id);
+        res.status(200).json({ success: true, cart });
+    } catch (error) {
+        console.error('Error clearing cart:', error.message);
+        res.status(500).json({ error: 'Failed to clear cart' });
     }
 };
