@@ -6,6 +6,7 @@ import {
 import imageService from '../services/imageService.js';
 import passport from '../../auth/passport.js';
 import { registerUser } from '../services/user.service.js';
+import * as cartService from '../services/cart.service.js';
 
 export const landingPage = async (req, res) => {
     try {
@@ -121,7 +122,7 @@ export const productById = async (req, res) => {
 // };
 
 export const home = (req, res) => {
-    res.redirect(req.isAuthenticated() ? '/products' : '/landing');
+    res.redirect('/landing');
 };
 
 export const login = (req, res) => {
@@ -175,4 +176,26 @@ export const logout = (req, res, next) => {
         if (err) return next(err);
         res.redirect('/');
     });
+};
+
+export const cart = async (req, res) => {
+    try {
+        const cartData = await cartService.getCart(req.user.id);
+        res.render('cart', {
+            title: 'Shopping Cart',
+            cart: cartData.items,
+            total: cartData.total,
+            itemCount: cartData.itemCount,
+            errorMessage: null
+        });
+    } catch (error) {
+        console.error('Error loading cart page:', error.message);
+        res.render('cart', {
+            title: 'Shopping Cart',
+            cart: [],
+            total: 0,
+            itemCount: 0,
+            errorMessage: 'Error loading cart'
+        });
+    }
 };

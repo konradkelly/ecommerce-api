@@ -10,6 +10,9 @@
                 <li><a href="/products">Products</a></li>
                 <% if (locals.user) { %>
                     <li>
+                        <a href="/cart">Cart <span id="header-cart-count" class="cart-count-badge"><%= locals.cartItemCount || 0 %></span></a>
+                    </li>
+                    <li>
                         <form method="post" action="/logout" class="nav-logout-form">
                             <button type="submit" class="nav-logout-btn">Logout</button>
                         </form>
