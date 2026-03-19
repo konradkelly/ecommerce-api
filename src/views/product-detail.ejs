@@ -29,6 +29,14 @@
                     <h3 class="product-detail-category"><%= product.category_name || 'Uncategorized' %></h3>
                     <p class="product-detail-price">$<%= Number(product.price).toFixed(2) %></p>
                     <p class="product-detail-description"><%= product.description %></p>
+                    <button
+                        type="button"
+                        class="product-to-cart"
+                        id="detail-add-to-cart"
+                        data-product-id="<%= product.id %>"
+                    >
+                        Add to Cart
+                    </button>
                 </div>
             </section>
         <% } else { %>
@@ -40,5 +48,61 @@
     </main>
 
     <%- include("./partials/footer") %>
+
+    <% if (product) { %>
+        <script>
+            (function () {
+                const addButton = document.getElementById('detail-add-to-cart');
+                if (!addButton) return;
+
+                const updateHeaderCartCount = (count) => {
+                    const badge = document.getElementById('header-cart-count');
+                    if (badge) {
+                        badge.textContent = String(count ?? 0);
+                    }
+                };
+
+                addButton.addEventListener('click', async () => {
+                    const productId = Number(addButton.dataset.productId);
+                    if (!Number.isFinite(productId) || productId <= 0) {
+                        alert('Invalid product selected.');
+                        return;
+                    }
+
+                    try {
+                        addButton.disabled = true;
+                        addButton.textContent = 'Adding...';
+
+                        const response = await fetch('/api/cart/add', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Accept: 'application/json'
+                            },
+                            body: JSON.stringify({ productId, quantity: 1 })
+                        });
+
+                        const data = await response.json();
+                        if (!response.ok || !data.success) {
+                            throw new Error(data.error || 'Failed to add item to cart');
+                        }
+
+                        updateHeaderCartCount(data.cart?.itemCount ?? 0);
+                        addButton.textContent = 'Added!';
+
+                        setTimeout(() => {
+                            addButton.disabled = false;
+                            addButton.textContent = 'Add to Cart';
+                        }, 900);
+                    } catch (error) {
+                        console.error(error);
+                        addButton.disabled = false;
+                        addButton.textContent = 'Try Again';
+                        alert('Unable to add this item to cart right now.');
+                    }
+                });
+            })();
+        </script>
+    <% } %>
 </body>
 </html>

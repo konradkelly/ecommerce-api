@@ -4,6 +4,8 @@
 -- =============================================
 
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS cart_items;
+DROP TABLE IF EXISTS carts;
 DROP TABLE IF EXISTS user_preferred_categories;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS images;
@@ -81,3 +83,33 @@ CREATE TABLE user_preferred_categories (
     FOREIGN KEY (user_id)     REFERENCES users(id)      ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
+
+-- =============================================
+-- Shopping Cart Tables
+-- =============================================
+CREATE TABLE carts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE cart_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cart_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    price NUMERIC(10,2) NOT NULL,
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cart_id) REFERENCES carts(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_cart_product (cart_id, product_id)
+);
+
+-- =============================================
+-- Cart Indexes
+-- =============================================
+CREATE INDEX idx_cart_user ON carts(user_id);
+CREATE INDEX idx_cart_items_cart ON cart_items(cart_id);
+CREATE INDEX idx_cart_items_product ON cart_items(product_id);
