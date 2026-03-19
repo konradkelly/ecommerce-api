@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { sessionMiddleware } from '../auth/sessions.js';
+import passport from '../auth/passport.js';
 import ecommerceRouter from './routers/ecommerce.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,6 +28,17 @@ app.get('/js/icon.js', (req, res) => {
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//session + auth
+app.use(sessionMiddleware);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// expose current user to all EJS views
+app.use((req, res, next) => {
+	res.locals.user = req.user || null;
+	next();
+});
 
 //routers
 app.use("/", ecommerceRouter);

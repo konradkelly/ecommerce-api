@@ -8,8 +8,16 @@
             <ul class="nav-menu">
                 <li><a href="/"> Home</a></li>
                 <li><a href="/products">Products</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Register</a></li>
+                <% if (locals.user) { %>
+                    <li>
+                        <form method="post" action="/logout" class="nav-logout-form">
+                            <button type="submit" class="nav-logout-btn">Logout</button>
+                        </form>
+                    </li>
+                <% } else { %>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                <% } %>
             </ul>
         </nav>
     </div>
