@@ -8,15 +8,11 @@ services:
       - ../.env
     environment:
       - NODE_ENV=development
-      - PORT=8001
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_USER=root
-      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - DB_NAME=${MYSQL_DATABASE}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - SESSION_SECRET=${SESSION_SECRET}
     depends_on:
       - mysql
       - redis
@@ -52,9 +48,8 @@ services:
     container_name: ecommerce-mysql
     ports:
       - "3310:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    env_file:
+      - ../.env
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -66,6 +61,8 @@ services:
     container_name: ecommerce-phpmyadmin
     ports:
       - "3312:80"
+    env_file:
+      - ../.env
     environment:
       - PMA_HOST=mysql
       - PMA_PORT=3306
