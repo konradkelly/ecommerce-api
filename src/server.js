@@ -43,7 +43,7 @@ app.use(passport.session());
 //middleware
 const ensureLoggedIn = (req, res, next) => {
     if (!req.user) return res.redirect("/");
-    next();
+    return next();
 }
 
 //routes
