@@ -52,4 +52,4 @@ jobs:
             SESSION_SECRET=${{ secrets.SESSION_SECRET }}
             ENVEOF
 
-            docker compose -f docker-compose.prod.yml up -d --build --force-recreate
+            docker compose up -d --build --force-recreate

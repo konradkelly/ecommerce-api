@@ -4,84 +4,35 @@ services:
     container_name: ecommerce-app
     ports:
       - "8001:8001"
-    env_file:
-      - .env
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - PORT=8001
-      - DB_HOST=mysql
+      - DB_HOST=${DB_HOST}
       - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - DB_NAME=${MYSQL_DATABASE}
-      - SESSION_SECRET=${SESSION_SECRET}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
+      - SESSION_SECRET=${SESSION_SECRET}
     depends_on:
-      - mysql
       - redis
     networks:
       - ecommerce-network
     restart: unless-stopped
-    command: npm run dev
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /app/src
-          initial_sync: true
-          ignore:
-            - node_modules/
-        - action: sync
-          path: ./public
-          target: /app/public
-          initial_sync: true
-          ignore:
-            - node_modules/
-        - action: sync+restart
-          path: ./src/views
-          target: /app/src/views
-          initial_sync: true
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
-  mysql:
-    image: mysql:8.0
-    container_name: ecommerce-mysql
-    ports:
-      - "3310:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - ecommerce-network
-    restart: unless-stopped
+
   redis:
     image: redis:7-alpine
     container_name: ecommerce-redis
-    ports:
-      - "6379:6379"
+    volumes:
+      - redis-data:/data
     networks:
       - ecommerce-network
     restart: unless-stopped
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: ecommerce-phpmyadmin
-    ports:
-      - "3312:80"
-    environment:
-      - PMA_HOST=mysql
-      - PMA_PORT=3306
-    depends_on:
-      - mysql
-    networks:
-      - ecommerce-network
-    restart: unless-stopped
+
 networks:
   ecommerce-network:
     driver: bridge
+
 volumes:
-  mysql-data:
+  redis-data:
