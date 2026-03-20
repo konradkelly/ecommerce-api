@@ -78,6 +78,8 @@ DB_NAME=your_db_name
 
 ## 6. Start the App
 
+The root `docker-compose.yml` is the **production** configuration (no local MySQL, uses RDS).
+
 ```bash
 docker compose up -d --build
 ```
@@ -87,6 +89,8 @@ Verify containers are running:
 docker ps
 docker compose logs app
 ```
+
+> **Note:** Dev compose lives at `docker/docker-compose.dev.yml` and should never be used on EC2.
 
 ---
 
@@ -116,6 +120,16 @@ docker compose logs app -f      # live logs
 docker compose ps               # check container status
 docker compose down             # stop everything
 docker compose up -d --build    # rebuild after code changes
+```
+
+---
+
+## Local Development
+
+For local dev (with MySQL, phpMyAdmin, and file watchers), run from the project root:
+
+```bash
+docker compose -f docker/docker-compose.dev.yml up --build
 ```
 
 ---

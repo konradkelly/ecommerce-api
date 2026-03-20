@@ -1,9 +1,11 @@
 services:
   app:
-    build: .
+    build: ..
     container_name: ecommerce-app
     ports:
       - "8001:8001"
+    env_file:
+      - ../.env
     environment:
       - NODE_ENV=development
       - PORT=8001
@@ -21,32 +23,29 @@ services:
     networks:
       - ecommerce-network
     restart: unless-stopped
-    # volumes:
-    #   - .:/app
     command: npm run dev
     develop:
       watch:
         - action: sync
-          path: ./src
+          path: ../src
           target: /app/src
           initial_sync: true
           ignore:
             - node_modules/
         - action: sync
-          path: ./public
+          path: ../public
           target: /app/public
           initial_sync: true
           ignore:
             - node_modules/
         - action: sync+restart
-          path: ./src/views
+          path: ../src/views
           target: /app/src/views
           initial_sync: true
           ignore:
             - node_modules/
         - action: rebuild
-          path: package.json
-    
+          path: ../package.json
 
   mysql:
     image: mysql:8.0
