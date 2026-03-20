@@ -70,6 +70,11 @@ DB_PORT=3306
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 DB_NAME=your_db_name
+SESSION_SECRET=your_session_secret
+REDIS_HOST=redis
+REDIS_PORT=6379
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
 > ⚠️ Never commit `.env` to GitHub. It is already listed in `.gitignore`.
