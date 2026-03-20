@@ -37,7 +37,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/Cascadia-Gear-Co-op
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
 
             cat > .env << 'ENVEOF'
             NODE_ENV=production
@@ -50,6 +51,8 @@ jobs:
             REDIS_HOST=redis
             REDIS_PORT=6379
             SESSION_SECRET=${{ secrets.SESSION_SECRET }}
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
             ENVEOF
 
             docker compose up -d --build --force-recreate
