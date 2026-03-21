@@ -7,41 +7,57 @@
     <link rel="stylesheet" href="/css/styles.css">
     <style>
         .cart-container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .cart-container h1 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+
+        .cart-error {
+            color: #7a1414;
+            padding: 0.85rem 1rem;
+            background-color: #f9dede;
+            border: 1px solid #e7b5b5;
+            border-radius: 8px;
+            margin-bottom: 1rem;
         }
 
         .cart-empty {
             text-align: center;
-            padding: 40px;
-            background-color: #f5f5f5;
-            border-radius: 8px;
+            padding: 2.2rem 1.2rem;
+            background-color: #efefef;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
 
         .cart-empty a {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+            margin-top: 0.9rem;
+            padding: 0.55rem 0.9rem;
+            background-color: #333;
+            color: #fff;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 6px;
         }
 
         .cart-items {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            background-color: #fff;
+            border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
         }
 
         .cart-item {
             display: flex;
-            padding: 20px;
-            border-bottom: 1px solid #eee;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e5e5;
             align-items: center;
-            gap: 20px;
+            gap: 1rem;
         }
 
         .cart-item:last-child {
@@ -49,10 +65,14 @@
         }
 
         .cart-item-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 4px;
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            object-position: center;
+            background-color: #fff;
+            border-radius: 14px;
+            padding: 0.3rem;
+            box-sizing: border-box;
         }
 
         .cart-item-info {
@@ -60,125 +80,141 @@
         }
 
         .cart-item-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: #222;
         }
 
         .cart-item-price {
-            color: #666;
-            margin-bottom: 10px;
+            color: #333;
+            margin-bottom: 0.35rem;
         }
 
         .cart-item-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.6rem;
         }
 
         .quantity-input {
-            width: 60px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            width: 64px;
+            padding: 0.45rem;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font: inherit;
+            background-color: #fff;
         }
 
-        .btn-remove {
-            padding: 8px 12px;
-            background-color: #dc3545;
-            color: white;
+        .btn-remove,
+        .btn-update,
+        .btn-checkout,
+        .btn-clear-cart,
+        .btn-continue {
+            padding: 0.5rem 0.75rem;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .btn-remove:hover {
-            background-color: #c82333;
+        .btn-update,
+        .btn-checkout {
+            background-color: #333;
+            color: #fff;
         }
 
-        .btn-update {
-            padding: 8px 12px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
+        .btn-continue {
+            background-color: #efefef;
+            color: #222;
+            border: 1px solid #bbb;
         }
 
-        .btn-update:hover {
-            background-color: #218838;
+        .btn-remove,
+        .btn-clear-cart {
+            background-color: #00b0b0;
+            color: #111;
         }
 
         .cart-subtotal {
             text-align: right;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 20px;
-            border-top: 2px solid #ddd;
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 1rem;
+            border-top: 1px solid #e5e5e5;
+            background-color: #fafafa;
         }
 
         .cart-summary {
-            margin-top: 30px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
+            margin-top: 1rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            padding: 1rem;
             text-align: right;
         }
 
         .cart-total {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.9rem;
+            color: #222;
         }
 
         .cart-actions {
             display: flex;
-            gap: 10px;
+            gap: 0.6rem;
             justify-content: flex-end;
+            flex-wrap: wrap;
         }
 
-        .btn-checkout {
-            padding: 12px 30px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
+        .btn-update:hover,
         .btn-checkout:hover {
-            background-color: #0056b3;
+            background-color: #1f1f1f;
         }
 
-        .btn-continue {
-            padding: 12px 30px;
-            background-color: #6c757d;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
+        .btn-remove:hover,
+        .btn-clear-cart:hover {
+            background-color: #009898;
         }
 
         .btn-continue:hover {
-            background-color: #5a6268;
+            background-color: #e2e2e2;
         }
 
-        .btn-clear-cart {
-            padding: 12px 30px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
 
-        .btn-clear-cart:hover {
-            background-color: #c82333;
+            .cart-item-image {
+                width: 100%;
+                max-width: 220px;
+                height: 180px;
+            }
+
+            .cart-item-controls {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .cart-actions {
+                justify-content: stretch;
+            }
+
+            .btn-remove,
+            .btn-update,
+            .btn-checkout,
+            .btn-clear-cart,
+            .btn-continue {
+                flex: 1;
+                min-width: 150px;
+            }
         }
     </style>
 </head>
@@ -189,7 +225,7 @@
         <h1><%= title %></h1>
 
         <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
-            <div style="color: red; padding: 15px; background-color: #ffe6e6; border-radius: 4px; margin-bottom: 20px;">
+            <div class="cart-error">
                 <%= errorMessage %>
             </div>
         <% } %>
@@ -211,7 +247,7 @@
                             <div class="cart-item-price">Subtotal: $<%= parseFloat(item.subtotal).toFixed(2) %></div>
                         </div>
                         <div class="cart-item-controls">
-                            <input type="number" min="1" value="<%= item.quantity %>" class="quantity-input" id="qty-<%= item.id %>" data-item-id="<%= item.id %>">
+                            <input type="number" min="1" max="5" value="<%= item.quantity %>" class="quantity-input" id="qty-<%= item.id %>" data-item-id="<%= item.id %>">
                             <button class="btn-update" onclick="updateQuantity(<%= item.id %>)">Update</button>
                             <button class="btn-remove" onclick="removeItem(<%= item.id %>)">Remove</button>
                         </div>
@@ -239,6 +275,8 @@
     <%- include('partials/footer') %>
 
     <script>
+        const MAX_CART_ITEM_QUANTITY = 5;
+
         function removeItem(itemId) {
             if (confirm('Are you sure you want to remove this item?')) {
                 fetch(`/api/cart/items/${itemId}`, {
@@ -263,6 +301,11 @@
                 return;
             }
 
+            if (quantity > MAX_CART_ITEM_QUANTITY) {
+                alert(`You can only have up to ${MAX_CART_ITEM_QUANTITY} of one item in your cart.`);
+                return;
+            }
+
             fetch(`/api/cart/items/${itemId}`, {
                 method: 'PUT',
                 headers: {
@@ -270,13 +313,19 @@
                 },
                 body: JSON.stringify({ quantity })
             })
-            .then(response => response.json())
+            .then(async response => ({
+                ok: response.ok,
+                data: await response.json()
+            }))
             .then(data => {
+                if (!data.ok) {
+                    throw new Error(data.data?.error || 'Failed to update quantity');
+                }
                 location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to update quantity');
+                alert(error.message || 'Failed to update quantity');
             });
         }
 
