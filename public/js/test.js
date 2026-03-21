@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 buttonEl.textContent = 'Try Again';
                 buttonEl.disabled = false;
             }
-            alert('Unable to add this item to cart right now.');
+            alert(error.message || 'Unable to add this item to cart right now.');
         }
     }
 

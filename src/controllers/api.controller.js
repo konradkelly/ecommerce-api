@@ -6,6 +6,8 @@ import {
 import imageService from '../services/imageService.js';
 import * as cartService from '../services/cart.service.js';
 
+const MAX_CART_ITEM_QUANTITY = 5;
+
 const parseFilters = (query = {}) => {
     const toNumber = (value) => {
         if (value === undefined || value === null || value === '') {
@@ -104,11 +106,18 @@ export const addToCart = async (req, res) => {
         if (quantity <= 0) {
             return res.status(400).json({ error: 'Quantity must be greater than 0' });
         }
+
+        if (quantity > MAX_CART_ITEM_QUANTITY) {
+            return res.status(400).json({ error: `Quantity cannot be more than ${MAX_CART_ITEM_QUANTITY}` });
+        }
         
         const cart = await cartService.addToCart(req.user.id, productId, quantity);
         res.status(200).json({ success: true, cart });
     } catch (error) {
         console.error('Error adding to cart:', error.message);
+        if (error.message && /(cannot exceed|maximum of)/i.test(error.message)) {
+            return res.status(400).json({ error: error.message });
+        }
         res.status(500).json({ error: 'Failed to add item to cart' });
     }
 };
@@ -141,11 +150,18 @@ export const updateCartItem = async (req, res) => {
         if (!quantity || quantity <= 0) {
             return res.status(400).json({ error: 'Quantity must be greater than 0' });
         }
+
+        if (quantity > MAX_CART_ITEM_QUANTITY) {
+            return res.status(400).json({ error: `Quantity cannot be more than ${MAX_CART_ITEM_QUANTITY}` });
+        }
         
         const cart = await cartService.updateCartItem(req.user.id, cartItemId, quantity);
         res.status(200).json({ success: true, cart });
     } catch (error) {
         console.error('Error updating cart item:', error.message);
+        if (error.message && error.message.toLowerCase().includes('cannot exceed')) {
+            return res.status(400).json({ error: error.message });
+        }
         res.status(500).json({ error: 'Failed to update cart item' });
     }
 };

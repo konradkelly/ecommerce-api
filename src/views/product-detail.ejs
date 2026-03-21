@@ -98,7 +98,7 @@
                         console.error(error);
                         addButton.disabled = false;
                         addButton.textContent = 'Try Again';
-                        alert('Unable to add this item to cart right now.');
+                        alert(error.message || 'Unable to add this item to cart right now.');
                     }
                 });
             })();
