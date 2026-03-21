@@ -1,20 +1,20 @@
 import passport from 'passport';
 import { Strategy } from 'passport-google-oauth20';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { findOrCreateOAuthUser } from '../model/users.repo.js';
 
 const config = {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback"
-}
+	clientID: process.env.GOOGLE_CLIENT_ID,
+	clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+	callbackURL: '/auth/google/callback'
+};
 
-//accessToken - short term, helps the client make requests
-//refreshToken - long term, used to get a new access token
-passport.use(new Strategy(config, (accessToken, refreshToken, profile, done) => {
-    done(null, profile);
+passport.use(new Strategy(config, async (accessToken, refreshToken, profile, done) => {
+	try {
+		const email = profile.emails?.[0]?.value;
+		if (!email) return done(new Error('No email returned from Google'));
+		const user = await findOrCreateOAuthUser(email, 'google', profile.id);
+		return done(null, user);
+	} catch (err) {
+		return done(err);
+	}
 }));
-
-passport.serializeUser((user, done) => { done(null, user); });
-passport.deserializeUser((user, done) => { done(null, user); });

@@ -1,9 +1,17 @@
 import { Router } from "express";
+import passport from 'passport';
 import * as ejsCtl from '../controllers/ejs.controller.js';
 import * as apiCtl from '../controllers/api.controller.js';
 import { requireAuth, requireAuthApi } from '../middleware/auth.middleware.js';
 
 const router = Router();
+
+// --- Google OAuth routes ---
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/auth/google/callback', passport.authenticate('google', {
+	failureRedirect: '/login',
+	successRedirect: '/products'
+}));
 
 // --- Public routes (no auth required) ---
 router.get("/", ejsCtl.home);
