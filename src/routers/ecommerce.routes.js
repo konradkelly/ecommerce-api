@@ -13,6 +13,13 @@ router.get('/auth/google/callback', passport.authenticate('google', {
 	successRedirect: '/products'
 }));
 
+// --- Discord OAuth routes ---
+router.get('/auth/discord', passport.authenticate('discord'));
+router.get('/auth/discord/callback', passport.authenticate('discord', {
+	failureRedirect: '/login',
+	successRedirect: '/products'
+}));
+
 // --- Public routes (no auth required) ---
 router.get("/", ejsCtl.home);
 router.get('/landing', ejsCtl.landingPage);

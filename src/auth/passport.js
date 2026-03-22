@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as DiscordStrategy } from 'passport-discord';
 import { validateCredentials, getUserById } from '../services/user.service.js';
 import { findOrCreateOAuthUser } from '../model/users.repo.js';
 
@@ -27,6 +28,25 @@ passport.use(new GoogleStrategy(
 			const email = profile.emails?.[0]?.value;
 			if (!email) return done(new Error('No email returned from Google'));
 			const user = await findOrCreateOAuthUser(email, 'google', profile.id);
+			return done(null, user);
+		} catch (err) {
+			return done(err);
+		}
+	}
+));
+
+passport.use(new DiscordStrategy(
+	{
+		clientID: process.env.DISCORD_CLIENT_ID,
+		clientSecret: process.env.DISCORD_CLIENT_SECRET,
+		callbackURL: '/auth/discord/callback',
+		scope: ['identify', 'email']
+	},
+	async (accessToken, refreshToken, profile, done) => {
+		try {
+			const email = profile.email;
+			if (!email) return done(new Error('No email returned from Discord'));
+			const user = await findOrCreateOAuthUser(email, 'discord', profile.id);
 			return done(null, user);
 		} catch (err) {
 			return done(err);

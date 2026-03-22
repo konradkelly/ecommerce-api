@@ -22,6 +22,7 @@
         "express-session": "^1.19.0",
         "mysql2": "^3.17.2",
         "passport": "^0.7.0",
+        "passport-discord": "^0.1.4",
         "passport-google-oauth20": "^2.0.0",
         "passport-local": "^1.0.0",
         "redis": "^5.11.0"
