@@ -1,8 +1,8 @@
 import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { sessionMiddleware } from '../auth/sessions.js';
-import passport from '../auth/passport.js';
+import { sessionMiddleware } from './auth/sessions.js';
+import passport from './auth/passport.js';
 import ecommerceRouter from './routers/ecommerce.routes.js';
 import { getCart } from './services/cart.service.js';
 

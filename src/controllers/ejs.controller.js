@@ -4,7 +4,7 @@ import {
     getProductById
 } from '../services/default.service.js';
 import imageService from '../services/imageService.js';
-import passport from '../../auth/passport.js';
+import passport from '../auth/passport.js';
 import { registerUser } from '../services/user.service.js';
 import * as cartService from '../services/cart.service.js';
 
