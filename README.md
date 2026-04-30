@@ -4,10 +4,10 @@
 Web Frameworks Capstone Project
 
 
-https://github.com/user-attachments/assets/bb36da93-d9d7-4853-b4a4-de25ec30febb
 
-## Cascadia Gear Co-op: Video Demo
-For more Demo Videos: Check out Demo.md
+https://github.com/user-attachments/assets/4b50bc85-d309-43b0-920a-94e2b0cf726c
+
+
 
 ## Team
 
