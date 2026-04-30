@@ -3,6 +3,12 @@
 **Professional Outdoor Equipment Retailer**
 Web Frameworks Capstone Project
 
+
+https://github.com/user-attachments/assets/bb36da93-d9d7-4853-b4a4-de25ec30febb
+
+## Cascadia Gear Co-op: Video Demo
+For more Demo Videos: Check out Demo.md
+
 ## Team
 
 - Jonus Clapshaw — @JonusClapshaw
