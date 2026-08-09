@@ -1,0 +1,21 @@
+# gitleaks configuration.
+#
+# The default ruleset is extended rather than replaced, so all upstream
+# detectors stay active.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Non-secret files and placeholder values"
+paths = [
+  '''package-lock\.json''',
+  '''global-bundle\.pem''',   # public Amazon RDS CA bundle, not a private key
+  '''\.gitleaks\.toml''',
+]
+regexes = [
+  '''your_password''',
+  '''your_session_secret''',
+  '''your_google_client_id''',
+  '''your_google_client_secret''',
+  '''<value>''',
+]

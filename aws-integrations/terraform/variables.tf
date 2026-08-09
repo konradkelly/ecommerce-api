@@ -72,12 +72,7 @@ variable "db_password" {
   description = "MySQL password for the app user"
   type        = string
   sensitive   = true
-  # Set via: $env:TF_VAR_db_password="***REMOVED-CREDENTIAL***"
-}
-
-variable "db_root_password" {
-  description = "MySQL root password"
-  type        = string
-  sensitive   = true
-  # Set via: $env:TF_VAR_db_root_password="***REMOVED-CREDENTIAL***"
+  # Supply via environment, never in a committed file:
+  #   PowerShell: $env:TF_VAR_db_password="<value>"
+  #   Bash:       export TF_VAR_db_password="<value>"
 }

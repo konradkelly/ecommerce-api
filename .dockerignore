@@ -1,0 +1,35 @@
+# Without this file, `COPY . .` in the Dockerfile copies the host's node_modules
+# over the clean `npm ci --omit=dev` install (re-introducing dev dependencies
+# into the production image) and bakes .env into an image layer where
+# `docker history` can read it back out.
+
+node_modules/
+npm-debug.log*
+
+# Secrets — never in an image
+.env
+.env.*
+!.env.example
+*.pem
+global-bundle.pem
+
+# VCS and CI
+.git/
+.github/
+.gitignore
+
+# Infrastructure — not needed at runtime
+aws-integrations/
+docker/
+docker-compose.yml
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
+
+# Tests, docs, tooling
+tests/
+postman/
+*.md
+eslint.config.js
+jsconfig.json

@@ -294,18 +294,18 @@ mysql -h <RDS_ENDPOINT> -P 3306 -u <DB_USERNAME> -p --ssl-mode=VERIFY_IDENTITY -
 
 Replace `<RDS_ENDPOINT>`, `<DB_USERNAME>`, and `<DB_NAME>` with your values. You will be prompted for your password.
 
-**Example:**
-```
-mysql -h ***REMOVED-ENDPOINT*** -P 3306 -u cascadia_user -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" ecommercedb
-```
+Retrieve the endpoint from Terraform rather than hardcoding it:
 
+```bash
+terraform -chdir=aws-integrations/terraform output -raw rds_endpoint
+```
 
 ### Importing schema and seed data
 
-From Command Prompt (replace `<PATH_TO_SCHEMA>` and `<PATH_TO_SEED>` with your actual file paths):
+From Command Prompt (replace the placeholders with your own values):
 ```
-mysql -h ***REMOVED-ENDPOINT*** -P 3306 -u cascadia_user -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" ecommercedb < <PATH_TO_SCHEMA>
-mysql -h ***REMOVED-ENDPOINT*** -P 3306 -u cascadia_user -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" ecommercedb < <PATH_TO_SEED>
+mysql -h <RDS_ENDPOINT> -P 3306 -u <DB_USERNAME> -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" <DB_NAME> < <PATH_TO_SCHEMA>
+mysql -h <RDS_ENDPOINT> -P 3306 -u <DB_USERNAME> -p --ssl-mode=VERIFY_IDENTITY --ssl-ca="C:\\certs\\global-bundle.pem" <DB_NAME> < <PATH_TO_SEED>
 ```
 
 Or, inside the MySQL prompt (use relative paths or upload files to your server):
